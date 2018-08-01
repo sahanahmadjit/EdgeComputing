@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/lib/ws4j-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/commons-io-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/edu.mit.jwi_2.4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/multilayerPerceptronCS.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/simmetrics_jar_v1_6_2_d07_02_07.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/maui.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/json-simple-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/jsoup-1.8.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/Classifier4J-0.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/RBFNetwork.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/weka.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/jawjaw-1.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/wikipediaminer1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/lib/bcprov-jdk15on-155.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

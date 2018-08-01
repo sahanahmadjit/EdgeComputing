@@ -1,0 +1,139 @@
+500-Abstracts Time-social media feed-181
+500-Query Time-social media feed-3082
+500-Cloud Time-social media feed-3
+500-Search Time-social media feed-3436
+500-Abstracts Time-social media feed-11
+500-Query Time-social media feed-1544
+500-Cloud Time-social media feed-3
+500-Search Time-social media feed-1665
+500-Abstracts Time-social media feed-9
+500-Query Time-social media feed-1211
+500-Cloud Time-social media feed-3
+500-Search Time-social media feed-1328
+500-Abstracts Time-social media feed-8
+500-Query Time-social media feed-1120
+500-Cloud Time-social media feed-3
+500-Search Time-social media feed-1235
+500-Abstracts Time-social media feed-6
+500-Query Time-social media feed-1078
+500-Cloud Time-social media feed-2
+500-Search Time-social media feed-1191
+500-Abstracts Time-social media feed-3
+500-Query Time-social media feed-947
+500-Abstracts Time-social media feed-173
+500-Query Time-social media feed-2792
+500-Cloud Time-social media feed-23
+500-Search Time-social media feed-3129
+500-Abstracts Time-social media feed-12
+500-Query Time-social media feed-1671
+500-Cloud Time-social media feed-7
+500-Search Time-social media feed-1793
+500-Abstracts Time-social media feed-6
+500-Query Time-social media feed-1170
+500-Cloud Time-social media feed-4
+500-Search Time-social media feed-1285
+500-Abstracts Time-social media feed-6
+500-Query Time-social media feed-1112
+1000-Abstracts Time-social media feed-214
+1000-Query Time-social media feed-2796
+1000-Cloud Time-social media feed-26
+1000-Search Time-social media feed-3187
+1000-Abstracts Time-social media feed-202
+1000-Query Time-social media feed-2959
+1000-Cloud Time-social media feed-26
+1000-Search Time-social media feed-3339
+1000-Abstracts Time-social media feed-215
+1000-Query Time-social media feed-3221
+1000-Cloud Time-social media feed-26
+1000-Search Time-social media feed-3614
+1000-Abstracts Time-social media feed-215
+1000-Query Time-social media feed-2783
+1000-Cloud Time-social media feed-26
+1000-Search Time-social media feed-3179
+1000-Abstracts Time-social media feed-212
+1000-Query Time-social media feed-3344
+1000-Cloud Time-social media feed-28
+1000-Search Time-social media feed-3733
+1000-Abstracts Time-social media feed-210
+1000-Query Time-social media feed-3017
+1000-Cloud Time-social media feed-28
+1000-Search Time-social media feed-3402
+1000-Abstracts Time-social media feed-199
+1000-Query Time-social media feed-3088
+1000-Cloud Time-social media feed-27
+1000-Search Time-social media feed-3458
+1000-Abstracts Time-social media feed-210
+1000-Query Time-social media feed-3091
+1000-Cloud Time-social media feed-27
+1000-Search Time-social media feed-3480
+1000-Abstracts Time-social media feed-210
+1000-Query Time-social media feed-2915
+1000-Cloud Time-social media feed-26
+1000-Search Time-social media feed-3303
+1000-Abstracts Time-social media feed-209
+1000-Query Time-social media feed-2799
+1000-Cloud Time-social media feed-27
+1000-Search Time-social media feed-3183
+1000-Abstracts Time-social media feed-200
+1000-Query Time-social media feed-3101
+1000-Cloud Time-social media feed-28
+1000-Search Time-social media feed-3472
+1000-Abstracts Time-social media feed-219
+1000-Query Time-social media feed-6352
+1000-Cloud Time-social media feed-28
+1000-Search Time-social media feed-8094
+1500-Abstracts Time-social media feed-210
+1500-Query Time-social media feed-3151
+1500-Cloud Time-social media feed-6
+1500-Search Time-social media feed-3536
+1500-Abstracts Time-social media feed-193
+1500-Query Time-social media feed-3133
+1500-Cloud Time-social media feed-8
+1500-Search Time-social media feed-3491
+1500-Abstracts Time-social media feed-212
+1500-Query Time-social media feed-2946
+1500-Cloud Time-social media feed-7
+1500-Search Time-social media feed-3333
+1500-Abstracts Time-social media feed-201
+1500-Query Time-social media feed-3190
+1500-Cloud Time-social media feed-7
+1500-Search Time-social media feed-3557
+1500-Abstracts Time-social media feed-209
+1500-Query Time-social media feed-3194
+1500-Cloud Time-social media feed-7
+1500-Search Time-social media feed-3578
+1500-Abstracts Time-social media feed-195
+1500-Query Time-social media feed-3021
+1500-Cloud Time-social media feed-6
+1500-Search Time-social media feed-3383
+1500-Abstracts Time-social media feed-210
+1500-Query Time-social media feed-2715
+1500-Cloud Time-social media feed-7
+1500-Search Time-social media feed-3098
+1500-Abstracts Time-social media feed-209
+1500-Query Time-social media feed-3213
+1500-Cloud Time-social media feed-6
+1500-Search Time-social media feed-3597
+1500-Abstracts Time-social media feed-208
+1500-Query Time-social media feed-2984
+1500-Cloud Time-social media feed-7
+1500-Search Time-social media feed-3367
+5-500-Abstracts Time-transmission protocol-1909
+5-500-Query Time-transmission protocol-9156
+5-500-Cloud Time-transmission protocol-7
+5-500-Search Time-transmission protocol-11840
+5-500-Abstracts Time-internet protocol-132
+5-500-Query Time-internet protocol-3991
+5-500-Cloud Time-internet protocol-17
+5-500-Search Time-internet protocol-4706
+5-500-Abstracts Time-transmission protocol-131
+5-500-Query Time-transmission protocol-3723
+5-500-Cloud Time-transmission protocol-4
+5-500-Search Time-transmission protocol-4423
+5-500-Abstracts Time-internet protocol-131
+5-500-Query Time-internet protocol-4317
+5-500-Cloud Time-internet protocol-20
+5-500-Search Time-internet protocol-5039
+5-500-Abstracts Time-internet protocol-200
+5-500-Abstracts Time-internet protocol-126
+5-500-Abstracts Time-internet protocol-125

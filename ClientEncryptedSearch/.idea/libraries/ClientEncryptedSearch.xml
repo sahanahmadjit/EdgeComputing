@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ClientEncryptedSearch">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/ClientEncryptedSearch.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
