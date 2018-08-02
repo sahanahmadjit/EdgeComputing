@@ -8,12 +8,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 
 public class DataCollectionForChain {
 
+    public static final int NUMBER_OF_WORDS_IN_FILE = 2;
+    Vector<String> listOfWord = new Vector<String>();
+    Vector<Integer> cost  = new Vector<Integer>();
 
-    List<String> listOfWord = new LinkedList<String >();
+    AdjacencyList smallMarkovChainForOneFile = new AdjacencyList(NUMBER_OF_WORDS_IN_FILE);
 
     public boolean StatisticsInfoOfSearch(String folderPath){
 
@@ -24,9 +28,15 @@ public class DataCollectionForChain {
                 String previousSearch=null;
                 String currentSearch = null;
                 while ((currentSearch = br.readLine()) != null) {
-                    listOfWord.add(line);
-                    System.out.println(line);
+                 if(previousSearch==null) {
+                     previousSearch = currentSearch;;
+                 }
+                 else{
+                     smallMarkovChainForOneFile.addEdge(previousSearch,currentSearch,1);
+                 }
+                    previousSearch = currentSearch;
                 }
+
             }
 
             catch (IOException e){
@@ -34,7 +44,7 @@ public class DataCollectionForChain {
             }
         }
 
-
+        smallMarkovChainForOneFile.printAdjacencyList();
         return true;
     }
 
