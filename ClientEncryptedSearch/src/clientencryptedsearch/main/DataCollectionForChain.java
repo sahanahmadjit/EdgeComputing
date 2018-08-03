@@ -1,23 +1,18 @@
 package clientencryptedsearch.main;
 
-import clientencryptedsearch.utilities.Constants;
 import clientencryptedsearch.utilities.Util;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
+
 
 
 public class DataCollectionForChain {
 
-    public static final int NUMBER_OF_WORDS_IN_FILE = 2;
-    Vector<String> listOfWord = new Vector<String>();
-    Vector<Integer> cost  = new Vector<Integer>();
 
-    AdjacencyList smallMarkovChainForOneFile = new AdjacencyList(NUMBER_OF_WORDS_IN_FILE);
+    TransactionMatrixCalculation smallMarkovChainForOneFile = new TransactionMatrixCalculation();
 
     public boolean StatisticsInfoOfSearch(String folderPath){
 
@@ -45,8 +40,11 @@ public class DataCollectionForChain {
         }
 
         smallMarkovChainForOneFile.printAdjacencyList();
+        smallMarkovChainForOneFile.transactionMatrixStructureInfo();
+        smallMarkovChainForOneFile.printTransactionMatrix();
         return true;
     }
+
 
 
 }
