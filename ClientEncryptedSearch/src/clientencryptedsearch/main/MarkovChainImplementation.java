@@ -187,7 +187,7 @@ The sum of each row in Transaction Matrix is One. That calculation is done by tr
         double sum=0;
         for(int steps = 0; steps<numberOfFutureSteps;steps++) {
 
-            for (int i = 0; i < matrixlength; i++) { //First matrix
+            for (int i = 0; i < 1; i++) { //First matrix
                 for (int j = 0; j < matrixlength; j++) { // Second matrix
                     for(int k=0;k<matrixlength;k++){
                         sum += transactionMatrixVector[i][k] * transactionMatrix[k][j];
