@@ -120,7 +120,7 @@ public class BatchUploader {
             //For key files
             if (file.endsWith(".key")) {
 
-
+                System.out.print(file.toString());
                 String[] fileNameWithpath = file.split(File.separator);
                 String fileName = fileNameWithpath[fileNameWithpath.length-1];
                 System.out.println("Uploading file: " + fileName);
