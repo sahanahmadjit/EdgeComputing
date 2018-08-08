@@ -8,13 +8,14 @@ public class MarkovChainImplementation {
 
     public int TOTAL_FREQUENCY=0;
     public int [][] transactionMatrixData;
-    public double [][] transactionMatrixVector;
+    public double [] transactionMatrixVector;
     public double [][] transactionMatrix;
 
     public   HashMap<String,HashMap<String,Integer>> adjacencyList;
     public   ArrayList<String> searchedWordArrayList= new ArrayList<String>();
     private  HashMap<String,HashMap<String,Integer>> exitedVertexHasMap= new HashMap<String,HashMap<String,Integer>>();
     private  HashMap<String,Integer> exitedEdgeHasMap = new HashMap<String, Integer>();
+    public HashMap<String, Double> sortedSearchWordHashMap = new HashMap<String,Double>();
 
 
 
@@ -131,7 +132,7 @@ public class MarkovChainImplementation {
 
         int matrixLength = transactionMatrixData.length;
 
-        transactionMatrixVector = new double[1][matrixLength];
+        transactionMatrixVector = new double [matrixLength];
 
         for ( int row =0; row< matrixLength; row++) {
             double sum =0;
@@ -141,13 +142,13 @@ public class MarkovChainImplementation {
             }
 
              sum/= TOTAL_FREQUENCY;
-            transactionMatrixVector[0][row]= sum;
+            transactionMatrixVector[row]= sum;
         }
 
 
         System.out.print("TransactionVector:\t");
         for (int i=0;i<matrixLength;i++)
-            System.out.print(transactionMatrixVector[0][i]+"\t|");
+            System.out.print(transactionMatrixVector[i]+"\t|");
         System.out.print("\n");
     }
 /*
@@ -167,49 +168,72 @@ The sum of each row in Transaction Matrix is One. That calculation is done by tr
             for (int column = 0; column < matrixLength; column++) {
                 sum += transactionMatrixData[row][column];
             }
-            for(int column=0;column<matrixLength;column++){
-                transactionMatrix[row][column]= transactionMatrixData[row][column]/sum;
+            if(sum!=0) {
+                for (int column = 0; column < matrixLength; column++) {
+                    transactionMatrix[row][column] = transactionMatrixData[row][column] / sum;
+                }
             }
         }
 
-        System.out.print("TransactionMatrix:\t\n");
+        System.out.print("=======TransactionMatrix:=============\t\n");
         for (int i=0;i<matrixLength;i++) {
-            for (int j = 0; j < matrixLength; j++)
+            System.out.print(searchedWordArrayList.get(i)+"\t|");
+            for (int j = 0; j < matrixLength; j++) {
                 System.out.print(transactionMatrix[i][j] + "\t|");
+                }
             System.out.print("\n");
         }
     }
 
     public  void markovImplementation(int numberOfFutureSteps){
 
-        int matrixlength =  transactionMatrixVector[0].length;
-        double [][] intermediateVectorMatrix = new double[1][matrixlength];
+        int matrixlength =  transactionMatrixVector.length;
+        double [] intermediateVectorMatrix = new double [matrixlength];
         double sum=0;
         for(int steps = 0; steps<numberOfFutureSteps;steps++) {
 
-            for (int i = 0; i < 1; i++) { //First matrix
+
                 for (int j = 0; j < matrixlength; j++) { // Second matrix
                     for(int k=0;k<matrixlength;k++){
-                        sum += transactionMatrixVector[i][k] * transactionMatrix[k][j];
+                        sum += transactionMatrixVector[k] * transactionMatrix[k][j];
                     }
-                    intermediateVectorMatrix[i][j] = sum;
+                    intermediateVectorMatrix[j] = sum;
                     sum = 0;
                 }
-            }
+
 
             for(int i=0;i<matrixlength;i++){
-                transactionMatrixVector[0][i] = intermediateVectorMatrix[0][i];
+                transactionMatrixVector[i] = intermediateVectorMatrix[i];
             }
 
         }
 
 
 
-        System.out.print("After Performing "+numberOfFutureSteps+" the transaction Vector:");
+        System.out.print("=========After Performing "+numberOfFutureSteps+" the transaction Vector:=============\n");
         for(int i=0;i<matrixlength;i++){
-            transactionMatrixVector[0][i] = intermediateVectorMatrix[0][i];
-            System.out.print("\t"+transactionMatrixVector[0][i]+"\t|");
+            transactionMatrixVector[i] = intermediateVectorMatrix[i];
+            System.out.print("\t"+transactionMatrixVector[i]+"\t|");
         }
+
+    }
+
+
+
+
+        /*
+        sort the searchword so that top items can be select for selection
+
+         */
+
+    public void sortedTermForAbstract(){
+
+
+
+       for (int i= 0;i< searchedWordArrayList.size();i++){
+           sortedSearchWordHashMap.put(searchedWordArrayList.get(i),transactionMatrixVector[i]);
+       }
+
 
     }
 
@@ -217,6 +241,7 @@ The sum of each row in Transaction Matrix is One. That calculation is done by tr
 
 
     public void printTransactionMatrix(){
+        System.out.println("============Adjacency Matrix:==================");
 
         for(int i=0;i<searchedWordArrayList.size();i++){
             //Print the row search term
