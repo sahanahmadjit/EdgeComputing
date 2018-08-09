@@ -15,7 +15,9 @@ public class MarkovChainImplementation {
     public   ArrayList<String> searchedWordArrayList= new ArrayList<String>();
     private  HashMap<String,HashMap<String,Integer>> exitedVertexHasMap= new HashMap<String,HashMap<String,Integer>>();
     private  HashMap<String,Integer> exitedEdgeHasMap = new HashMap<String, Integer>();
-    public HashMap<String, Double> sortedSearchWordHashMap = new HashMap<String,Double>();
+    public HashMap<String, Double> unsortedSearchWordHashMap = new HashMap<String,Double>();
+    public  Map<String,Double> sortedMap = new TreeMap<String, Double>();
+
 
 
 
@@ -146,9 +148,9 @@ public class MarkovChainImplementation {
         }
 
 
-        System.out.print("TransactionVector:\t");
+        System.out.print("=======TransactionVector:=====\n\t");
         for (int i=0;i<matrixLength;i++)
-            System.out.print(transactionMatrixVector[i]+"\t|");
+            System.out.print(searchedWordArrayList.get(i)+" ="+transactionMatrixVector[i]+"\t|");
         System.out.print("\n");
     }
 /*
@@ -210,11 +212,13 @@ The sum of each row in Transaction Matrix is One. That calculation is done by tr
 
 
 
-        System.out.print("=========After Performing "+numberOfFutureSteps+" the transaction Vector:=============\n");
+        System.out.print("=========After Performing "+numberOfFutureSteps+" Steps the transaction Vector:=============\n");
         for(int i=0;i<matrixlength;i++){
             transactionMatrixVector[i] = intermediateVectorMatrix[i];
             System.out.print("\t"+transactionMatrixVector[i]+"\t|");
         }
+
+        sortedTermForAbstract();
 
     }
 
@@ -231,7 +235,16 @@ The sum of each row in Transaction Matrix is One. That calculation is done by tr
 
 
        for (int i= 0;i< searchedWordArrayList.size();i++){
-           sortedSearchWordHashMap.put(searchedWordArrayList.get(i),transactionMatrixVector[i]);
+           unsortedSearchWordHashMap.put(searchedWordArrayList.get(i),transactionMatrixVector[i]);
+           }
+           sortedMap = ValueComparator.sortByValue(unsortedSearchWordHashMap);
+
+       System.out.print("\n=======After Sorting=========\n");
+        Set sortedSet = sortedMap.entrySet();
+        Iterator it = sortedSet.iterator();
+       for(int i=0;i<sortedMap.size();i++) {
+           Map.Entry mapEntry = (Map.Entry) it.next();
+           System.out.println( mapEntry.getKey() +"|" + mapEntry.getValue()+"\t");
        }
 
 
