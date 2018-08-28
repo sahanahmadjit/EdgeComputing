@@ -22,12 +22,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -102,7 +97,8 @@ public class ClientSearcher {
         long begin = System.currentTimeMillis();
         splitQuery();
         addSynonyms();
-        addWikiTerms();
+        //need to be uncommented
+      //  addWikiTerms();
         long end = System.currentTimeMillis();
         if (Config.calcMetrics)
             ClientMetrics.writeQueryTime(end-begin, originalQuery);
@@ -253,7 +249,65 @@ public class ClientSearcher {
             }
         }
     }
-    
+
+    /*
+    Send search query to server.
+     */
+
+    public void searchTermInCluster() {
+        //First things first (I'm the realest) we have to fill allWeights with the encrypted data
+       Map<String,Float> sortedTermByWeight = new HashMap<String, Float>();
+        consolidateQuery();
+        boolean scanning = true;
+   /*     while(scanning) {
+            //Now send allWeights over a socket.
+            try {
+                sock = new Socket(Config.cloudIP, Config.socketPort);
+
+               DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
+
+                sock.setKeepAlive(true);
+                sock.setSoTimeout(10000);
+
+
+                //Just write how many entries we need to write so the cloud knows.
+                dos.writeInt(allWeights.size());
+*/
+                //Start writing to it.  One entry at a time.
+
+             sortedTermByWeight =  ValueComparator.sortByValue(allWeights);
+
+                for (String term : allWeights.keySet()) {
+                    //Send the term, then the weight
+
+                    System.out.println("Term= "+ term +" Weight= "+ allWeights.get(term));
+            //        dos.writeUTF(term);
+           //         dos.writeFloat(allWeights.get(term));
+                }
+
+                scanning = false;
+
+                // Write the info on the abstracts to search
+                //            dos.writeInt(searchedAbstractNames.size());
+                //            for (String name : searchedAbstractNames) {
+                //                dos.writeUTF(name);
+                //            }
+
+                //            dos.close();
+                //            sock.close();
+          /*  } catch (IOException ex) {
+                System.err.println(ClientSearcher.class.getName() + ": Error sending weights. trying again");
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex1) {
+                    Logger.getLogger(ClientSearcher.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
+        }*/
+    }
+
+
+
     //Put all of the weights and query stuff into one map.
     private void consolidateQuery() {
         //First go through the query weights
@@ -265,9 +319,9 @@ public class ClientSearcher {
             allWeights.put(syn, synonymWeights.get(syn));
         }
         //Finally, the wiki terms
-        for (String wiki : wikiWeights.keySet()) {
+      /*  for (String wiki : wikiWeights.keySet()) {
             allWeights.put(wiki, wikiWeights.get(wiki));
-        }
+        }*/
     }
         
     //Puts all of the weights and query stuff into one map, and encrypts the query stuff.

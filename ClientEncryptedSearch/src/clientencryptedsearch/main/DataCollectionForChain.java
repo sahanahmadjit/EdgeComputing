@@ -13,7 +13,10 @@ public class DataCollectionForChain {
 
 
     MarkovChainImplementation smallMarkovChainForOneFile = new MarkovChainImplementation();
-
+/*
+Read the search term form the file.
+Search the term in Cluster. If not found then search the nearest closest term to cluster.
+ */
     public boolean StatisticsInfoOfSearch(String folderPath){
 
         List<String> files = Util.getAbsoluteFilePathsFromFolder(folderPath);
@@ -23,6 +26,12 @@ public class DataCollectionForChain {
                 String previousSearch=null;
                 String currentSearch = null;
                 while ((currentSearch = br.readLine()) != null) {
+                    ClientSearcher termSearch = new ClientSearcher(currentSearch);
+                    termSearch.constructQuery();
+                    termSearch.searchTermInCluster();
+
+
+
                  if(previousSearch==null) {
                      previousSearch = currentSearch;
                      smallMarkovChainForOneFile.addEdge(previousSearch,currentSearch,1);
@@ -40,10 +49,11 @@ public class DataCollectionForChain {
             }
         }
 
-        smallMarkovChainForOneFile.printAdjacencyList();
+        // This line need to be un commented after work
+      /*  smallMarkovChainForOneFile.printAdjacencyList();
         smallMarkovChainForOneFile.transactionMatrixStructureInfo();
         smallMarkovChainForOneFile.printTransactionMatrix();
-        smallMarkovChainForOneFile.markovImplementation(10);
+        smallMarkovChainForOneFile.markovImplementation(10);*/
         return true;
     }
 
