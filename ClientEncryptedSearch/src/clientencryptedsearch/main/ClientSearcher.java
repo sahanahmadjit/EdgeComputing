@@ -275,12 +275,18 @@ public class ClientSearcher {
 */
                 //Start writing to it.  One entry at a time.
 
-             sortedTermByWeight =  ValueComparator.sortByValue(allWeights);
+        /*
+        The value is being sorted in ase order. False: asce
+         */
 
-                for (String term : allWeights.keySet()) {
+        sortedTermByWeight =  ValueSortHashMap.sortHashMap(allWeights,false);
+
+
+
+                for (String term : sortedTermByWeight.keySet()) {
                     //Send the term, then the weight
 
-                    System.out.println("Term= "+ term +" Weight= "+ allWeights.get(term));
+                    System.out.println("Term= "+ term +" Weight= "+ sortedTermByWeight.get(term));
             //        dos.writeUTF(term);
            //         dos.writeFloat(allWeights.get(term));
                 }
