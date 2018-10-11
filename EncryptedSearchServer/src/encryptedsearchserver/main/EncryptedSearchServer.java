@@ -46,6 +46,8 @@ public class EncryptedSearchServer {
                 break;
             case "-a":
                 sendAbstracts();
+            case "-c":
+                searchTermInCluster();
             default:
                 System.out.println("Unsupported operation requested");
         }
@@ -59,6 +61,7 @@ public class EncryptedSearchServer {
                 + "\tRetrieve and perform search query -s\n"
                 + "\tPartition Index -p\n"
                 + "\tSend Abstracts -a\n"
+                +"\tSearch Term In Cluster -c\n"
                 + "Choice: ");
         
         //Get input
@@ -114,6 +117,18 @@ public class EncryptedSearchServer {
             searcher.sendResultsToClient();
         //} while (true);
     }
+
+    private void searchTermInCluster(){
+        //Take the input once at time then process
+        System.out.println("\nNow Awaiting for Term to Search In Cluster");
+        SearchTermInCluster clusterSearcher = new SearchTermInCluster();
+        clusterSearcher.acceptTermSearchInformationForCluster();
+    }
+
+
+
+
+
 
     private void partition() {
         System.out.println("Loading the whole index into memory...");

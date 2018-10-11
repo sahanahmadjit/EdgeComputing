@@ -256,52 +256,73 @@ public class ClientSearcher {
 
     public void searchTermInCluster() {
         //First things first (I'm the realest) we have to fill allWeights with the encrypted data
-       Map<String,Float> sortedTermByWeight = new HashMap<String, Float>();
         consolidateQuery();
+        System.out.println("AllWeights Length:" +allWeights.size());
+        Map <String,Float> sortedTermByWeight = new HashMap<String, Float>();
+        ArrayList<String> rankOfAbstractList = new ArrayList<String>();
+        ArrayList<String> tempAbstractList = new ArrayList<String>();
         boolean scanning = true;
-   /*     while(scanning) {
+        while(scanning) {
             //Now send allWeights over a socket.
             try {
-                sock = new Socket(Config.cloudIP, Config.socketPort);
 
-               DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
-
-                sock.setKeepAlive(true);
-                sock.setSoTimeout(10000);
 
 
                 //Just write how many entries we need to write so the cloud knows.
-                dos.writeInt(allWeights.size());
-*/
+
+
+                sortedTermByWeight = ValueSortHashMap.sortHashMap(allWeights,false);
                 //Start writing to it.  One entry at a time.
 
-        /*
-        The value is being sorted in ase order. False: asce
-         */
-
-        sortedTermByWeight =  ValueSortHashMap.sortHashMap(allWeights,false);
-
-
-
+                boolean temp = true;
                 for (String term : sortedTermByWeight.keySet()) {
-                    //Send the term, then the weight
+                    //Use the query to prepare the hashed query set to send to server
+                   //Constructor just initializes
 
-                    System.out.println("Term= "+ term +" Weight= "+ sortedTermByWeight.get(term));
-            //        dos.writeUTF(term);
-           //         dos.writeFloat(allWeights.get(term));
+                    //Rank our abstracts based on the query and send it over.
+
+                        ClientSearcher searcher = new ClientSearcher(term);
+
+                       tempAbstractList =searcher.rankAbstractsForTermSearchInCluster();
+
+                       for(String clusterNumber: tempAbstractList){
+                           rankOfAbstractList.add(clusterNumber);
+                       }
+                       rankOfAbstractList.add("|"); // The Separator for diffterent term Abstract Number
                 }
 
+
+
+                sock = new Socket(Config.cloudIP, Config.socketPort);
+                DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
+
+                        sock.setKeepAlive(true);
+                        sock.setSoTimeout(90000);
+
+                        dos.writeInt(rankOfAbstractList.size()); //Total Number of Cluster
+                        for(String clusterNumber: rankOfAbstractList){
+                            dos.writeUTF(clusterNumber);
+                        }
+
+                        System.out.print(rankOfAbstractList.size());
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex1) {
+                    Logger.getLogger(ClientSearcher.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+                        dos.writeInt(sortedTermByWeight.size()); //Total Number of Term
+                        for(String term: sortedTermByWeight.keySet()){
+                            dos.writeUTF(term);
+                            dos.writeFloat(sortedTermByWeight.get(term));
+                        }
+                        dos.close();
+                        sock.close();
+                     //   searcher.acceptResults();
+//                        searcher.processResults();
+
+
                 scanning = false;
-
-                // Write the info on the abstracts to search
-                //            dos.writeInt(searchedAbstractNames.size());
-                //            for (String name : searchedAbstractNames) {
-                //                dos.writeUTF(name);
-                //            }
-
-                //            dos.close();
-                //            sock.close();
-          /*  } catch (IOException ex) {
+            } catch (IOException ex) {
                 System.err.println(ClientSearcher.class.getName() + ": Error sending weights. trying again");
                 try {
                     Thread.sleep(100);
@@ -309,7 +330,7 @@ public class ClientSearcher {
                     Logger.getLogger(ClientSearcher.class.getName()).log(Level.SEVERE, null, ex1);
                 }
             }
-        }*/
+        }
     }
 
 
@@ -356,8 +377,9 @@ public class ClientSearcher {
         for (String filePath : abstractFilePaths) {
             AbstractIndex abs = new AbstractIndex();
             abs.readAbstractFromFile(filePath);
-            
-            System.out.println(abs);
+
+            //This Line need to uncomment later : Sahan
+          //  System.out.println(abs);
             
             abstracts.add(abs);
         }
@@ -405,13 +427,65 @@ public class ClientSearcher {
         for (int i = 0; i < Config.numSearchedAbstracts && i < abstracts.size(); i++) {
             searchedAbstractNames.add(rankedAbstracts.poll().name);
         }
-        
+        System.out.println("The Term Looking in the Abstract:" + originalQuery);
         System.out.println("Will be searching over abstracts: " + searchedAbstractNames);
         
         if (Config.writeClusterChoices)
             ClientMetrics.writeClusterChoice(searchedAbstractNames, originalQuery);
     }
-    
+
+
+    // Compare every term in the query to every term in every abstract to get a score for that abstract
+    public ArrayList<String> rankAbstractsForTermSearchInCluster() {
+        loadAbstracts(); //puts abstracts into memory (the abstracts object)
+
+        // Get a queue for the ranked abstracts to be in.
+        PriorityQueue<AbstractIndex> rankedAbstracts = new PriorityQueue(10, new Comparator<AbstractIndex>() {
+            public int compare (AbstractIndex lhs, AbstractIndex rhs) {
+                if (lhs.rankScore < rhs.rankScore) return 1;
+                if (lhs.rankScore == rhs.rankScore) return 0;
+                return -1;
+            }
+        });
+
+        String[] queryTerms = originalQuery.split(" "); //for now just split the query into regular words
+
+        // Measure how long the ranking procedure took
+        long begin = System.currentTimeMillis();
+
+        for (AbstractIndex abs : abstracts) {
+            abs.rankScore = 0; //reset score
+
+            for (String absWord : abs.terms) {
+                absWord.replaceAll(" ", "_"); //our similarity thing doesn't work with spaces
+
+                for (String qWord : queryTerms) {
+                    abs.rankScore += computeWUP(qWord, absWord);
+                }
+            }
+
+            rankedAbstracts.add(abs);
+        }
+
+        long end = System.currentTimeMillis();
+        if (Config.calcMetrics)
+            ClientMetrics.writeAbstractTime(end-begin, originalQuery);
+
+        // Now that the abstracts have been ranked, we just get the names of however many we need to send over
+        for (int i = 0; i < Config.numSearchedAbstracts && i < abstracts.size(); i++) {
+            searchedAbstractNames.add(rankedAbstracts.poll().name);
+        }
+        System.out.println("The Term Looking in the Abstract:" + originalQuery);
+        System.out.println("Will be searching over abstracts: " + searchedAbstractNames);
+
+        if (Config.writeClusterChoices)
+            ClientMetrics.writeClusterChoice(searchedAbstractNames, originalQuery);
+
+        return searchedAbstractNames;
+    }
+
+
+
     // Send the abstract names we just figured out to the cloud so it can start loading them.
     public void sendAbstracts() {
         try {
