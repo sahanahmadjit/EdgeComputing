@@ -168,6 +168,7 @@ public class ClientEncryptedSearch {
         long end = System.currentTimeMillis();
         if (Config.calcMetrics)
             ClientMetrics.writeSearchTime(end-begin, query);
+
     }
 
     public void partition() {

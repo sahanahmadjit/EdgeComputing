@@ -321,6 +321,7 @@ public class ClientSearcher {
 //                        searcher.processResults();
 
 
+
                 scanning = false;
             } catch (IOException ex) {
                 System.err.println(ClientSearcher.class.getName() + ": Error sending weights. trying again");
