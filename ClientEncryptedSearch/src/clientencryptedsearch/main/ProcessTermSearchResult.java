@@ -18,7 +18,8 @@ public class ProcessTermSearchResult implements Serializable {
     Socket sock;
 
     Map<String,Float> sortedTermWeightHashMap = new HashMap<String,Float>();
-    HashMap<String,ArrayList<String>> termClusterList = new HashMap<String, ArrayList<String>>();
+    HashMap<String,ArrayList<String>>termClusterList = new HashMap<String,ArrayList<String>>();
+    Map <String,Float> termWeightMap = new HashMap<String, Float>();
 
     public  void sortedTermMap(Map<String,Float> sortedTermHashMap){
         sortedTermWeightHashMap = sortedTermHashMap;
@@ -31,11 +32,13 @@ public class ProcessTermSearchResult implements Serializable {
 
         int numSearchResults = 0;
         String term;
+        String MAX_TERM;
+        Float weight;
         DataInputStream dis = null;
         int numberOfFiles=0;
         ArrayList<String> clusterList;
         // Scan for connection
-
+        double MAX_VALUE=0.000000;
         boolean scanning = true;
         while(scanning) {
             try {
@@ -44,14 +47,18 @@ public class ProcessTermSearchResult implements Serializable {
                 numSearchResults = dis.readInt();
                 for(int termNumber = 0; termNumber<numSearchResults;termNumber++){
                     term = dis.readUTF();
+                    weight = dis.readFloat();
+                    System.out.print("Term:" + term + " weight:"+weight +" ");
                     numberOfFiles = dis.readInt();
                     clusterList = new ArrayList<String>();
                     for(int i=0;i<numberOfFiles;i++){
                         String clusterNumber = dis.readUTF();
                         String[] cluterNumberArray = clusterNumber.split("_");
+                        System.out.print(" Cluster Number:"+ cluterNumberArray[0] +" ");
                         clusterList.add(cluterNumberArray[0]);
                         }
-                    termClusterList.put(term,clusterList);
+                        termClusterList.put(term,clusterList);
+                        termWeightMap.put(term,weight);
                 }
 
 
@@ -67,14 +74,27 @@ public class ProcessTermSearchResult implements Serializable {
                     Logger.getLogger(ClientSearcher.class.getName()).log(Level.SEVERE, null, ex1);
                 }
             }
-
-            for(String termPrint:termClusterList.keySet()){
-                System.out.println("Search Term: "+termPrint);
-                ArrayList<String> tempList = termClusterList.get(termPrint);
-                for(int i=0;i<tempList.size();i++){
-                System.out.println("Term Find In Cluster Number: " +tempList.get(i));
-                }
-            }
         }
     }
+
+    public void heightWeithTermInCluster(){
+
+        Map<String,Float> bestTermByWeight = new HashMap<String,Float>();
+        bestTermByWeight = ValueSortHashMap.sortHashMap(termWeightMap,false);//ASE
+
+        System.out.print("\n");
+        System.out.println("---- Best Match-----");
+        Map.Entry<String, Float> entry = bestTermByWeight.entrySet().iterator().next();
+        System.out.print("Term: "+ entry.getKey() +" Weight: " + entry.getValue());
+        System.out.print(" Cluster File Number");
+        ArrayList<String> temp = new ArrayList<String>();
+        temp = termClusterList.get(entry.getKey());
+
+        for (String clusterFileNumber: temp)
+            System.out.print(" "+clusterFileNumber);
+
+
+    }
+
+
 }

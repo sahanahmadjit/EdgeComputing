@@ -31,6 +31,7 @@ Search the term in Cluster. If not found then search the nearest closest term to
                     termSearch.searchTermInCluster();
                     ProcessTermSearchResult processResult = new ProcessTermSearchResult();
                     processResult.acceptResultForTermSearch();
+                    processResult.heightWeithTermInCluster();
 
 
 

@@ -315,7 +315,7 @@ public class ClientSearcher {
                         dos.writeInt(sortedTermByWeight.size()); //Total Number of Term
                         for(String term: sortedTermByWeight.keySet()){
                             dos.writeUTF(term);
-                          //  dos.writeFloat(sortedTermByWeight.get(term));
+                            dos.writeFloat(sortedTermByWeight.get(term));
                         }
                         dos.close();
                         sock.close();

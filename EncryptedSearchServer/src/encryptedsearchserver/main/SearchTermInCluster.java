@@ -21,6 +21,8 @@ public class SearchTermInCluster implements  Serializable{
     private ArrayList<String> searchedClusterNames;
     private ArrayList<String> termToSearchInClsuter = new ArrayList<String>();
     public HashMap<String,ArrayList<String>> searchResultMap;
+    public  HashMap<String,Float> receiveDataMap = new HashMap<String, Float>();
+
 
 
     public void  acceptTermSearchInformationForCluster(){
@@ -44,17 +46,19 @@ public class SearchTermInCluster implements  Serializable{
             for (int i = 0; i < numShards; i++) {
                 String clusterNumber = dis.readUTF();
                 searchedClusterNames.add(clusterNumber);
+
             }
 
             int numOfTerms = dis.readInt();
 
             for(int i=0;i<numOfTerms;i++){
                String term = dis.readUTF();
-          //     Float weight = dis.readFloat();
+               Float weight = dis.readFloat();
                termToSearchInClsuter.add(term);
+               receiveDataMap.put(term,weight);
             }
 
-            System.out.print(termToSearchInClsuter.size());
+            System.out.print("Number Of Total Term Will be Searched In Cluster:"+termToSearchInClsuter.size());
             dis.close();
             sock.close();
             serv.close();
@@ -105,9 +109,13 @@ public class SearchTermInCluster implements  Serializable{
 
         }
 
+
         System.out.println("Cluster Search End");
 
     }
+
+
+
 
 
     public boolean searchTermInCluster(String clusterFileName, String term){
@@ -149,7 +157,9 @@ public class SearchTermInCluster implements  Serializable{
 
             for(String term: searchResultMap.keySet()) {
 
+                Float weight = receiveDataMap.get(term);
                 dos.writeUTF(term);
+                dos.writeFloat(weight);
                 //The ArrayList that contain cluster number for any term
                 ArrayList<String> clusterNumberList = new ArrayList<String>();
                 clusterNumberList = searchResultMap.get(term);
