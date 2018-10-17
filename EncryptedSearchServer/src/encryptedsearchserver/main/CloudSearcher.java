@@ -51,7 +51,7 @@ public class CloudSearcher {
             serv = new ServerSocket(Config.socketPort);
             sock = serv.accept();
             sock.setKeepAlive(true);
-            sock.setSoTimeout(90000);
+            sock.setSoTimeout(10000);
         } catch (IOException ex) {
             System.err.println(CloudSearcher.class.getName() + ": Error opening port");
         }
@@ -114,13 +114,10 @@ public class CloudSearcher {
             DataInputStream dis = new DataInputStream(sock.getInputStream());
             
             int numTerms = dis.readInt();
-            System.out.print("numTerms:" +numTerms);
             
             for (int i = 0; i < numTerms; i++) {
                 String term = dis.readUTF();
-                System.out.print("term: "+ term);
                 float weight = dis.readFloat();
-                System.out.print("weight: "+ weight);
                 query.put(term, weight);
             }
             

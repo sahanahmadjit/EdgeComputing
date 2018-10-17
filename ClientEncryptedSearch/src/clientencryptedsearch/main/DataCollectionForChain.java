@@ -29,6 +29,8 @@ Search the term in Cluster. If not found then search the nearest closest term to
                     ClientSearcher termSearch = new ClientSearcher(currentSearch);
                     termSearch.constructQuery();
                     termSearch.searchTermInCluster();
+                    ProcessTermSearchResult processResult = new ProcessTermSearchResult();
+                    processResult.acceptResultForTermSearch();
 
 
 

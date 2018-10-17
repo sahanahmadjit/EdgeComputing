@@ -272,6 +272,8 @@ public class ClientSearcher {
 
 
                 sortedTermByWeight = ValueSortHashMap.sortHashMap(allWeights,false);
+                ProcessTermSearchResult objToPassSortedMap = new ProcessTermSearchResult();
+                objToPassSortedMap.sortedTermMap(sortedTermByWeight);
                 //Start writing to it.  One entry at a time.
 
                 boolean temp = true;
@@ -313,13 +315,12 @@ public class ClientSearcher {
                         dos.writeInt(sortedTermByWeight.size()); //Total Number of Term
                         for(String term: sortedTermByWeight.keySet()){
                             dos.writeUTF(term);
-                            dos.writeFloat(sortedTermByWeight.get(term));
+                          //  dos.writeFloat(sortedTermByWeight.get(term));
                         }
                         dos.close();
                         sock.close();
                      //   searcher.acceptResults();
 //                        searcher.processResults();
-
 
 
                 scanning = false;
@@ -567,4 +568,6 @@ public class ClientSearcher {
             System.out.println(split[0] + " has score: " + split[1]);
         }
     }
+
+
 }

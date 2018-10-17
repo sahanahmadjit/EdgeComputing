@@ -48,11 +48,12 @@ public class EncryptedSearchServer {
                 sendAbstracts();
             case "-c":
                 searchTermInCluster();
+                break;
             default:
                 System.out.println("Unsupported operation requested");
         }
     }
-    
+
     private static String[] getUserInput() {
         String[] args = new String[2];
         System.out.println("Welcome to the Threaded S3C server");
@@ -63,14 +64,14 @@ public class EncryptedSearchServer {
                 + "\tSend Abstracts -a\n"
                 +"\tSearch Term In Cluster -c\n"
                 + "Choice: ");
-        
+
         //Get input
         Scanner scan;
         scan = new Scanner(System.in);
-        
+
         String choice = scan.nextLine();
         args[0] = choice;
-        
+
         switch (choice) {
             case "-u":
                 System.out.println("How are files being uploaded on the client? File -f or network -n");
@@ -80,7 +81,7 @@ public class EncryptedSearchServer {
                 args[1] = "";
                 break;
         }
-        
+
         return args;
     }
 
@@ -89,10 +90,10 @@ public class EncryptedSearchServer {
         index = new Index();
         index.prepareWholeIndex();
         System.out.println();
-        
+
         RetrieveUploadedFiles retriever = new RetrieveUploadedFiles(index);
         retriever.retrieve(uploadType);
-        
+
         //Now write this all back to the file
         System.out.println("Writing the doc sizes back to file...");
         index.writeDocSizesToFile();
@@ -104,9 +105,9 @@ public class EncryptedSearchServer {
     private void search() {
         System.out.println("Loading a blank index into memory.  The clusters will be added at run time.");
         index = new Index();
-        //Search indefinitely 
+        //Search indefinitely
         CloudSearcher searcher = new CloudSearcher(index);
-        
+
         //do {
             System.out.println("\nNow Awaiting Shard Picks... ");
             searcher.ReceiveClusterNames();
@@ -123,11 +124,12 @@ public class EncryptedSearchServer {
         System.out.println("\nNow Awaiting for Term to Search In Cluster");
         SearchTermInCluster clusterSearcher = new SearchTermInCluster();
         clusterSearcher.acceptTermSearchInformationForCluster();
+        clusterSearcher.prepareDataForCluster();
+        clusterSearcher.sendResultToClient();
     }
 
 
 
-    
 
 
 
