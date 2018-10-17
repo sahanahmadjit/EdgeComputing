@@ -49,6 +49,9 @@ public class EncryptedSearchServer {
             case "-c":
                 searchTermInCluster();
                 break;
+            case "-i":
+                callculateClusterSizeInfo();
+                break;
             default:
                 System.out.println("Unsupported operation requested");
         }
@@ -63,6 +66,7 @@ public class EncryptedSearchServer {
                 + "\tPartition Index -p\n"
                 + "\tSend Abstracts -a\n"
                 +"\tSearch Term In Cluster -c\n"
+                +"\tSend Cluster Size Information -i\n"
                 + "Choice: ");
 
         //Get input
@@ -172,5 +176,12 @@ public class EncryptedSearchServer {
         part.setNumberOfClusters(Config.k);
         part.createAbstractIndicesFromIndex();
         part.sendAbstractIndicesToClient();
+    }
+
+
+    private void callculateClusterSizeInfo(){
+        System.out.println("Preparing Cluster Size Information..");
+        ClusterSizeInfo clusterSize = new ClusterSizeInfo();
+        clusterSize.CalculateTermOnCluster();
     }
 }

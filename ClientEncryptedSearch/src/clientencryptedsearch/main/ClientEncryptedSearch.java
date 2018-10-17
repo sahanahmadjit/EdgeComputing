@@ -56,6 +56,9 @@ public class ClientEncryptedSearch {
                 batchUpload(args[1]);
             case "-m":
                  markovchainCalculation();
+            case "-i":
+                userInterestCalculation();
+
 
         }
     }
@@ -71,6 +74,7 @@ public class ClientEncryptedSearch {
                 + "\tCalc Abstracts -a\n"
                 + "\tBatch Upload -b\n"
                 + "\tMarkov Chain Model -m\n"
+                + "\tUser Interest Calculation -i\n"
                 + "Choice: ");
         
         //Get input
@@ -188,5 +192,10 @@ public class ClientEncryptedSearch {
     public  void markovchainCalculation(){
         DataCollectionForChain dataCollectForMarkovChain = new DataCollectionForChain();
         dataCollectForMarkovChain.StatisticsInfoOfSearch(Constants.batchUploadLocation);
+    }
+
+    public void userInterestCalculation(){
+        UserInterest userInterestCal = new UserInterest();
+        userInterestCal.userIntersetSearchCalculation();
     }
 }

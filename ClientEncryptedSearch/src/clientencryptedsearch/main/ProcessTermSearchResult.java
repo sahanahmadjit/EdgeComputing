@@ -93,6 +93,13 @@ public class ProcessTermSearchResult implements Serializable {
         for (String clusterFileNumber: temp)
             System.out.print(" "+clusterFileNumber);
 
+        /*
+
+        Update total and Individual search term History Record
+         */
+
+         UserInterest userInterestCal = new UserInterest();
+         userInterestCal.setTotalSearchHistory();
 
     }
 
