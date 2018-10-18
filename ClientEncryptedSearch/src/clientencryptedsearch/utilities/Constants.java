@@ -77,7 +77,10 @@ public class Constants {
     //Delimiters for splitting things we write.
     public static String regexIndexDelimiter = "\\|.\\|";
     public static String indexDelimiter = "|.|";
-    
+
+
+    public static  int TOTAL_NUMBER_OF_CLUSTER = 10;
+
     /**
      * Get Maui Extraction Options.
      * Returns the options array that represents the appropriate Maui options

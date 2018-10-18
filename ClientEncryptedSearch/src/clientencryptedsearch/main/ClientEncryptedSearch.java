@@ -110,6 +110,9 @@ public class ClientEncryptedSearch {
             case "-m":
                 System.out.println("Markov Chain Model");
                 break;
+            case "-i":
+                System.out.println("User Interest Calculation");
+                break;
             default:
                 System.out.println("I'm sorry, I do not recognize that input");
                 break;
@@ -195,7 +198,12 @@ public class ClientEncryptedSearch {
     }
 
     public void userInterestCalculation(){
+
+
+        double userInterest;
         UserInterest userInterestCal = new UserInterest();
-        userInterestCal.userIntersetSearchCalculation();
+        userInterest=userInterestCal.userIntersetSearchCalculation(8,Constants.TOTAL_NUMBER_OF_CLUSTER);
+
+        System.out.println("User Interest For Cluster 8:  "+ userInterest);
     }
 }

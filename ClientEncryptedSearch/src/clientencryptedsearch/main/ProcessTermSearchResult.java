@@ -87,10 +87,10 @@ public class ProcessTermSearchResult implements Serializable {
         Map.Entry<String, Float> entry = bestTermByWeight.entrySet().iterator().next();
         System.out.print("Term: "+ entry.getKey() +" Weight: " + entry.getValue());
         System.out.print(" Cluster File Number");
-        ArrayList<String> temp = new ArrayList<String>();
-        temp = termClusterList.get(entry.getKey());
+        ArrayList<String> clusterFileList = new ArrayList<String>();
+        clusterFileList = termClusterList.get(entry.getKey());
 
-        for (String clusterFileNumber: temp)
+        for (String clusterFileNumber: clusterFileList)
             System.out.print(" "+clusterFileNumber);
 
         /*
@@ -100,6 +100,7 @@ public class ProcessTermSearchResult implements Serializable {
 
          UserInterest userInterestCal = new UserInterest();
          userInterestCal.setTotalSearchHistory();
+         userInterestCal.setIndividualSearchHistory(clusterFileList.get(0));
 
     }
 
