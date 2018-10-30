@@ -27,8 +27,9 @@ public class Constants {
     public static  String batchUploadLocation = ".." + File.separator + "cloud" + File.separator +
             "cloudserver" + File.separator + "batchUpload" ;
 
-    public  static  String searchHistoryFileLocation = ".."+ File.separator + "searchHistory";
+    public  static String searchHistoryFileLocation = ".."+ File.separator +"EdgeStore"+ File.separator+ "searchHistory";
     public  static String searchHistoryFileName = "searchRecord.txt";
+    public  static String clusterAvgSimDistanceLocation = ".." + File.separator + "EdgeStore" + File.separator + "SimilarityMeasure";
     //Path for config props
     // IDE Version
     public static String configLocation = "src" + File.separator + "clientencryptedsearch" + File.separator + "utilities" + File.separator;

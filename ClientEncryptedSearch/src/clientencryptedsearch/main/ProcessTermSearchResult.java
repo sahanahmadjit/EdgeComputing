@@ -77,7 +77,7 @@ public class ProcessTermSearchResult implements Serializable {
         }
     }
 
-    public void heightWeithTermInCluster(){
+    public void writeBestTermSearchHistoryANDAVG () {
 
         Map<String,Float> bestTermByWeight = new HashMap<String,Float>();
         bestTermByWeight = ValueSortHashMap.sortHashMap(termWeightMap,false);//ASE
@@ -101,6 +101,16 @@ public class ProcessTermSearchResult implements Serializable {
          UserInterest userInterestCal = new UserInterest();
          userInterestCal.setTotalSearchHistory();
          userInterestCal.setIndividualSearchHistory(clusterFileList.get(0));
+
+
+         /*
+         Write term to the Cluster file in Edge Store
+
+          */
+
+         CalculateAverageSimilarityDistance writeTermInCluster = new CalculateAverageSimilarityDistance();
+         writeTermInCluster.writeTermToClusterFile(entry.getKey(),clusterFileList.get(0));
+
 
     }
 
