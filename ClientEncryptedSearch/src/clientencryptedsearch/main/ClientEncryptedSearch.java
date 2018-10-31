@@ -58,6 +58,11 @@ public class ClientEncryptedSearch {
                  markovchainCalculation();
             case "-i":
                 userInterestCalculation();
+            case "-av":
+                similarityDistanceCalculation();
+            case "-v":
+                termValidityChecking();
+
 
 
         }
@@ -75,6 +80,8 @@ public class ClientEncryptedSearch {
                 + "\tBatch Upload -b\n"
                 + "\tMarkov Chain Model -m\n"
                 + "\tUser Interest Calculation -i\n"
+                +"\tSimilarity Distance Calculation of Searched Word -av\n"
+                +"\tTerm Validity Checking -v\n"
                 + "Choice: ");
         
         //Get input
@@ -112,6 +119,12 @@ public class ClientEncryptedSearch {
                 break;
             case "-i":
                 System.out.println("User Interest Calculation");
+                break;
+            case "-av":
+                System.out.println("Searched Word Similarity Calculation in All Clusters");
+                break;
+            case "-v":
+                System.out.println("Term Validity Checking");
                 break;
             default:
                 System.out.println("I'm sorry, I do not recognize that input");
@@ -197,6 +210,14 @@ public class ClientEncryptedSearch {
         dataCollectForMarkovChain.StatisticsInfoOfSearch(Constants.batchUploadLocation);
     }
 
+
+    public  void termValidityChecking(){
+
+        TermValidityChecking termValidityChecking = new TermValidityChecking();
+        termValidityChecking.termValidityChecking(Constants.batchUploadLocation);
+    }
+
+
     public void userInterestCalculation(){
 
 
@@ -205,5 +226,11 @@ public class ClientEncryptedSearch {
         userInterest=userInterestCal.userIntersetSearchCalculation(8,Constants.TOTAL_NUMBER_OF_CLUSTER);
 
         System.out.println("User Interest For Cluster 8:  "+ userInterest);
+    }
+
+    public void similarityDistanceCalculation(){
+        CalculateAverageSimilarityDistance simMeasure = new CalculateAverageSimilarityDistance();
+        System.out.print("AvgSimilarity Distance for Cluster: ");
+        System.out.println(simMeasure.getAVGSimilartiyDistanceOfCluster(String.valueOf(8)));
     }
 }

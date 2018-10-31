@@ -125,11 +125,14 @@ public class EncryptedSearchServer {
 
     private void searchTermInCluster(){
         //Take the input once at time then process
-        System.out.println("\nNow Awaiting for Term to Search In Cluster");
-        SearchTermInCluster clusterSearcher = new SearchTermInCluster();
-        clusterSearcher.acceptTermSearchInformationForCluster();
-        clusterSearcher.prepareDataForCluster();
-        clusterSearcher.sendResultToClient();
+        while (true){
+            System.out.println("\nNow Awaiting for Term to Search In Cluster");
+            SearchTermInCluster clusterSearcher = new SearchTermInCluster();
+            clusterSearcher.acceptTermSearchInformationForCluster();
+            clusterSearcher.prepareDataForCluster();
+            clusterSearcher.sendResultToClient();
+        }
+
     }
 
 
