@@ -27,9 +27,9 @@ public class ProcessTermSearchResult implements Serializable {
 
 
 
-    public void  acceptResultForTermSearch(){
+    public boolean  acceptResultForTermSearch(){
         System.out.println("Waiting for file list from server...");
-
+        boolean recordExistOnClsuter = true;
         int numSearchResults = 0;
         String term;
         String MAX_TERM;
@@ -45,8 +45,15 @@ public class ProcessTermSearchResult implements Serializable {
                 sock = new Socket(Config.cloudIP, Config.socketPort);
                 dis = new DataInputStream(sock.getInputStream());
                 numSearchResults = dis.readInt();
+                if(numSearchResults==0){
+                    System.out.println("No Match Find on the Cloud Server");
+                    recordExistOnClsuter = false;
+                    break;
+                }
                 for(int termNumber = 0; termNumber<numSearchResults;termNumber++){
                     term = dis.readUTF();
+
+
                     weight = dis.readFloat();
                     System.out.print("Term:" + term + " weight:"+weight +" ");
                     numberOfFiles = dis.readInt();
@@ -75,6 +82,8 @@ public class ProcessTermSearchResult implements Serializable {
                 }
             }
         }
+
+        return  recordExistOnClsuter;
     }
 
     public void writeBestTermSearchHistoryANDAVG () {

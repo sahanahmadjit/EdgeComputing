@@ -56,12 +56,15 @@ public class ClientEncryptedSearch {
                 batchUpload(args[1]);
             case "-m":
                  markovchainCalculation();
+                 break;
             case "-i":
                 userInterestCalculation();
+                break;
             case "-av":
                 similarityDistanceCalculation();
             case "-v":
                 termValidityChecking();
+                break;
 
 
 
@@ -208,6 +211,7 @@ public class ClientEncryptedSearch {
     public  void markovchainCalculation(){
         DataCollectionForChain dataCollectForMarkovChain = new DataCollectionForChain();
         dataCollectForMarkovChain.StatisticsInfoOfSearch(Constants.NUMBER_OF_MARKOV_STEPS);
+        System.out.println("\n");
     }
 
 

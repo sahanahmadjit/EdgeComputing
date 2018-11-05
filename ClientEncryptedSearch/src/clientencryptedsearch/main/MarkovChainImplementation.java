@@ -2,6 +2,9 @@ package clientencryptedsearch.main;
 
 
 
+import clientencryptedsearch.utilities.Constants;
+
+import java.io.*;
 import java.util.*;
 
 public class MarkovChainImplementation {
@@ -250,7 +253,32 @@ The sum of each row in Transaction Matrix is One. That calculation is done by tr
 
     }
 
+    public  void writeSortedTermForAbstract(String clusterFileName){
 
+        // Need to start from here
+
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(Constants.markovAbastractCandidate+ clusterFileName ), "utf-8"))) {
+
+
+
+                writer.write("\n");
+
+
+
+
+        } catch (
+    UnsupportedEncodingException e1) {
+            System.out.println("UnSupported Action, to  write term in Abstract(markov) " + e1.getClass().getName());
+            e1.printStackTrace();
+        } catch (FileNotFoundException e1) {
+            System.out.println("Can't find the abstract(markov) file to write "+ e1.getClass().getName());
+        } catch (IOException e1) {
+            System.out.println("Can't write the abstract(markov) file "+e1.getClass().getName());
+        }
+
+
+    }
 
 
     public void printTransactionMatrix(){
@@ -301,6 +329,8 @@ The sum of each row in Transaction Matrix is One. That calculation is done by tr
             System.out.print("\n");
         }
     }
+
+
 
 
 }

@@ -30,6 +30,7 @@ public class Constants {
     public  static String searchHistoryFileLocation = ".."+ File.separator +"EdgeStore"+ File.separator+ "searchHistory";
     public  static String searchHistoryFileName = "searchRecord.txt";
     public  static String clusterAvgSimDistanceLocation = ".." + File.separator + "EdgeStore" + File.separator + "SimilarityMeasure";
+    public  static  String markovAbastractCandidate = ".."+ File.separator+"EdgeStore" + File.separator+ "Abstract";
     //Path for config props
     // IDE Version
     public static String configLocation = "src" + File.separator + "clientencryptedsearch" + File.separator + "utilities" + File.separator;
@@ -50,6 +51,7 @@ public class Constants {
     
     //Index file name.  This may not be necessary.
     public static String indexFileName = "Index.txt";
+
     
     
     
