@@ -1,11 +1,11 @@
-TotalSearch|.|357
+TotalSearch|.|373
 Cluster_7|.|40
 Cluster_5|.|10
-Cluster_8|.|109
+Cluster_8|.|114
 Cluster_6|.|55
 Cluster_9|.|60
 Cluster_4|.|42
-Cluster_3|.|10
-Cluster_2|.|10
+Cluster_3|.|15
+Cluster_2|.|16
 Cluster_1|.|10
 Cluster_0|.|11
