@@ -1,5 +1,6 @@
 package clientencryptedsearch.main;
 
+import clientencryptedsearch.utilities.Constants;
 import clientencryptedsearch.utilities.Util;
 
 import java.io.BufferedReader;
@@ -12,6 +13,9 @@ import java.util.List;
 public class DataCollectionForChain {
 
 
+
+
+
     MarkovChainImplementation smallMarkovChainForOneFile = new MarkovChainImplementation();
 /*
 Read the search term form the file.
@@ -19,9 +23,9 @@ Search the term in Cluster. If not found then search the nearest closest term to
  */
 
 
-    public boolean StatisticsInfoOfSearch(String folderPath){
+    public boolean StatisticsInfoOfSearch(int numberOfMarkovSteps){
 
-        List<String> files = Util.getAbsoluteFilePathsFromFolder(folderPath);
+        List<String> files = Util.getAbsoluteFilePathsFromFolder(Constants.clusterAvgSimDistanceLocation);
 
         for(String file:files){
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -45,11 +49,11 @@ Search the term in Cluster. If not found then search the nearest closest term to
             }
         }
 
-        // This line need to be un commented after work
+
         smallMarkovChainForOneFile.printAdjacencyList();
         smallMarkovChainForOneFile.transactionMatrixStructureInfo();
         smallMarkovChainForOneFile.printTransactionMatrix();
-        smallMarkovChainForOneFile.markovImplementation(10);
+        smallMarkovChainForOneFile.markovImplementation(numberOfMarkovSteps);
         return true;
     }
 

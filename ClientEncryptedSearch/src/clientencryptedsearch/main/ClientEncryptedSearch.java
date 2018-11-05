@@ -207,7 +207,7 @@ public class ClientEncryptedSearch {
 
     public  void markovchainCalculation(){
         DataCollectionForChain dataCollectForMarkovChain = new DataCollectionForChain();
-        dataCollectForMarkovChain.StatisticsInfoOfSearch(Constants.batchUploadLocation);
+        dataCollectForMarkovChain.StatisticsInfoOfSearch(Constants.NUMBER_OF_MARKOV_STEPS);
     }
 
 

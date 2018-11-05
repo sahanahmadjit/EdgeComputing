@@ -109,9 +109,6 @@ public class SearchTermInCluster implements  Serializable{
 
         }
 
-
-        System.out.println("Cluster Search End");
-
     }
 
 
@@ -169,6 +166,12 @@ public class SearchTermInCluster implements  Serializable{
                 dos.writeUTF(clusterNumberList.get(i));
 
                 }
+
+            }
+
+
+            if(searchResultMap.size()==0){ //if no match find on the cluster
+                System.out.println("No Match Find On Cluster");
             }
             // If we're taking metrics, send the time info back to the client.
             dos.close();

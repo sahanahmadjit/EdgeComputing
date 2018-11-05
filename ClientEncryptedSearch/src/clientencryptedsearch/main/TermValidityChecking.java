@@ -29,8 +29,10 @@ public class TermValidityChecking implements  Runnable {
                     termSearch.searchTermInCluster();
                     thread.run();
                     ProcessTermSearchResult processResult = new ProcessTermSearchResult();
-                    processResult.acceptResultForTermSearch();
-                    processResult.writeBestTermSearchHistoryANDAVG();
+                    if(processResult.acceptResultForTermSearch()){ // Check the result if the searched term exist on the cloud or not
+                        processResult.writeBestTermSearchHistoryANDAVG();
+                    }
+
                 }
 
             }

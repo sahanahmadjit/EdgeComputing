@@ -81,7 +81,7 @@ public class Constants {
 
 
     public static  int TOTAL_NUMBER_OF_CLUSTER = 10;
-
+    public  static  int NUMBER_OF_MARKOV_STEPS = 10;
     /**
      * Get Maui Extraction Options.
      * Returns the options array that represents the appropriate Maui options

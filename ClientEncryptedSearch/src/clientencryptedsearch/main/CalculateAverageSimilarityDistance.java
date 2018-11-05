@@ -37,14 +37,9 @@ public class CalculateAverageSimilarityDistance {
                      file = listOfFiles[i];
                         Path path = Paths.get(Constants.clusterAvgSimDistanceLocation+File.separator+"cluster_"+cluster_File_Number);
                         List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
-
-                        if(lines.contains(term)) {
-                        break;
-                        }
-                        else {
                         lines.add(term); // If new term add in the last line
                              Files.write(path,lines, StandardCharsets.UTF_8);
-                        }
+
                 } catch (FileNotFoundException e) {
                     System.out.print(this.getClass().getName() + "Can't find the AVG Similarity Cluster file in the location");
                 } catch (IOException e) {
