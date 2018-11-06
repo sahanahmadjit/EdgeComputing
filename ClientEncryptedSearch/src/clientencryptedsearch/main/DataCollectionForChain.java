@@ -16,8 +16,8 @@ public class DataCollectionForChain {
 
 
 
+    MarkovChainImplementation markovChainforOneCluster ;
 
-    MarkovChainImplementation markovChainforOneCluster = new MarkovChainImplementation();
 /*
 Read the search term form the file.
 Search the term in Cluster. If not found then search the nearest closest term to cluster.
@@ -29,6 +29,8 @@ Search the term in Cluster. If not found then search the nearest closest term to
         List<String> files = Util.getAbsoluteFilePathsFromFolder(Constants.markovDataFileLocation);
 
         for(String file:files){
+
+            markovChainforOneCluster =  new MarkovChainImplementation(); // Declare one markov chain for one cluster file
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                 String previousSearch=null;
                 String currentSearch = null;
