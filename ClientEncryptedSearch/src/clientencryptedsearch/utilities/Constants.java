@@ -30,6 +30,8 @@ public class Constants {
     public  static String searchHistoryFileLocation = ".."+ File.separator +"EdgeStore"+ File.separator+ "searchHistory";
     public  static String searchHistoryFileName = "searchRecord.txt";
     public  static String clusterAvgSimDistanceLocation = ".." + File.separator + "EdgeStore" + File.separator + "SimilarityMeasure";
+    public  static  String clusterSizeInfoLocation = ".." + File.separator +"EdgeStore" + File.separator + "ClusterSizeInfo";
+    public  static  String clusterSizeInfoFileName = "clusterSizeInfo.txt";
     public  static  String markovAbastractCandidate = ".."+ File.separator+"EdgeStore" + File.separator+ "Abstract";
     //Path for config props
     // IDE Version

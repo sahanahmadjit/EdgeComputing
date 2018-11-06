@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProcessTermSearchResult implements Serializable {
+public class ProcessTermSearchResult  {
 
     Socket sock;
 

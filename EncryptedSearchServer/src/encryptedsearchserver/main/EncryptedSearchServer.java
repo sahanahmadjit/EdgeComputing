@@ -186,5 +186,6 @@ public class EncryptedSearchServer {
         System.out.println("Preparing Cluster Size Information..");
         ClusterSizeInfo clusterSize = new ClusterSizeInfo();
         clusterSize.CalculateTermOnCluster();
+        clusterSize.sendClusterInfo();
     }
 }

@@ -65,6 +65,11 @@ public class ClientEncryptedSearch {
             case "-v":
                 termValidityChecking();
                 break;
+            case "-c":
+                clusterSizeInfo();
+                break;
+
+
 
 
 
@@ -85,6 +90,7 @@ public class ClientEncryptedSearch {
                 + "\tUser Interest Calculation -i\n"
                 +"\tSimilarity Distance Calculation of Searched Word -av\n"
                 +"\tTerm Validity Checking -v\n"
+                +"\t ClusterSize Info Collection -c\n"
                 + "Choice: ");
         
         //Get input
@@ -128,6 +134,9 @@ public class ClientEncryptedSearch {
                 break;
             case "-v":
                 System.out.println("Term Validity Checking");
+                break;
+            case "-c":
+                System.out.println("Cluster Size Info Collecting From Server");
                 break;
             default:
                 System.out.println("I'm sorry, I do not recognize that input");
@@ -236,5 +245,12 @@ public class ClientEncryptedSearch {
         CalculateAverageSimilarityDistance simMeasure = new CalculateAverageSimilarityDistance();
         System.out.print("AvgSimilarity Distance for Cluster: ");
         System.out.println(simMeasure.getAVGSimilartiyDistanceOfCluster(String.valueOf(8)));
+    }
+
+
+    public  void clusterSizeInfo(){
+        ClusterSizeInfo collectClsuterSizeInfo = new ClusterSizeInfo();
+        collectClsuterSizeInfo.acceptClusterSizeInfo();
+        collectClsuterSizeInfo.writeClusterInfo();
     }
 }

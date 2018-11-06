@@ -1,12 +1,19 @@
 package encryptedsearchserver.main;
 
+import encryptedsearchserver.utilities.Config;
 import encryptedsearchserver.utilities.Constants;
 
 import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClusterSizeInfo {
-
+    private ServerSocket serv;
+    private Socket sock;
 
     HashMap<String,Integer> clusterInfoMap = new HashMap<String, Integer>();
 
@@ -16,6 +23,9 @@ public class ClusterSizeInfo {
 
         for (File file : listOfFiles) {
             String clusterFile = file.getName();
+            String [] clusterFileArray = clusterFile.split("_");
+            clusterFile = clusterFileArray[1];
+            clusterFile = clusterFile.replaceAll(".txt","");
 
             if (file.isFile()) {
                 BufferedReader reader = null;
@@ -36,13 +46,35 @@ public class ClusterSizeInfo {
         }
 
         for(String fileName: clusterInfoMap.keySet())
-            System.out.println(fileName + " Total Term In Cluster: " + (clusterInfoMap.get(fileName)-1));
+            System.out.println("Total Term In Cluster: " + fileName +" "+ (clusterInfoMap.get(fileName)-1));
 
 
     }
 
 
     public void sendClusterInfo(){
+        System.out.println("\nSending search results to client...");
+        // Uses the same connection from before.  Maybe bad?
+        try {
+            serv = new ServerSocket(Config.socketPort);
+            sock = serv.accept();
+            DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
+
+            int numSearchResults = clusterInfoMap.size();
+            dos.writeInt(numSearchResults);
+
+
+            for(String clusterFileName: clusterInfoMap.keySet()){
+                dos.writeUTF(clusterFileName);
+                int totalNumberOfTerm = (clusterInfoMap.get(clusterFileName));
+                dos.writeInt(totalNumberOfTerm);
+            }
+            dos.close();
+            sock.close();
+            serv.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CloudSearcher.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
