@@ -90,7 +90,7 @@ public class ClientEncryptedSearch {
                 + "\tUser Interest Calculation -i\n"
                 +"\tSimilarity Distance Calculation of Searched Word -av\n"
                 +"\tTerm Validity Checking -v\n"
-                +"\t ClusterSize Info Collection -c\n"
+                +"\tClusterSize Info Collection -c\n"
                 + "Choice: ");
         
         //Get input

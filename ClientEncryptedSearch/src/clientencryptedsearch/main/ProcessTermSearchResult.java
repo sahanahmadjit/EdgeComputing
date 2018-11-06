@@ -119,6 +119,7 @@ public class ProcessTermSearchResult  {
 
          CalculateAverageSimilarityDistance writeTermInCluster = new CalculateAverageSimilarityDistance();
          writeTermInCluster.writeTermToClusterFile(entry.getKey(),clusterFileList.get(0));
+         writeTermInCluster.writeTermTOMarkovDataFile(entry.getKey(),clusterFileList.get(0));
 
 
     }

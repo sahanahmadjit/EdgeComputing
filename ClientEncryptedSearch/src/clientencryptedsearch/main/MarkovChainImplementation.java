@@ -257,15 +257,21 @@ The sum of each row in Transaction Matrix is One. That calculation is done by tr
 
         // Need to start from here
 
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(Constants.markovAbastractCandidate+ clusterFileName ), "utf-8"))) {
+                  File file = new File(Constants.markovAbastractCandidate+File.separator+clusterFileName);
 
+      try{
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
-
+            for(String term: sortedMap.keySet()){
+                writer.write(term);
+                writer.write("|.|");
+                double weight = sortedMap.get(term);
+                writer.write(String.valueOf(weight));
                 writer.write("\n");
+            }
 
-
-
+            writer.flush();
+            writer.close();
 
         } catch (
     UnsupportedEncodingException e1) {
@@ -273,8 +279,10 @@ The sum of each row in Transaction Matrix is One. That calculation is done by tr
             e1.printStackTrace();
         } catch (FileNotFoundException e1) {
             System.out.println("Can't find the abstract(markov) file to write "+ e1.getClass().getName());
+            e1.printStackTrace();
         } catch (IOException e1) {
             System.out.println("Can't write the abstract(markov) file "+e1.getClass().getName());
+            e1.printStackTrace();
         }
 
 
