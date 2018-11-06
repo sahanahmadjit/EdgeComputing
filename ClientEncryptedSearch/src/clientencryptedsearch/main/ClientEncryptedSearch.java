@@ -236,9 +236,9 @@ public class ClientEncryptedSearch {
 
         double userInterest;
         UserInterest userInterestCal = new UserInterest();
-        userInterest=userInterestCal.userIntersetSearchCalculation(8,Constants.TOTAL_NUMBER_OF_CLUSTER);
+   //     userInterest=userInterestCal.userIntersetSearchCalculation(8,Constants.TOTAL_NUMBER_OF_CLUSTER);
 
-        System.out.println("User Interest For Cluster 8:  "+ userInterest);
+     //   System.out.println("User Interest For Cluster 8:  "+ userInterest);
     }
 
     public void similarityDistanceCalculation(){

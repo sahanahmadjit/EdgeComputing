@@ -188,7 +188,7 @@ public class UserInterest {
         return searchNumber;
     }
 
-    public double userIntersetSearchCalculation(int clusterNumberOfInterest,int totalNumberOfCluster){
+    public double getUserIntersetSearchCalculation(int clusterNumberOfInterest,int totalNumberOfCluster){
 
         int totalSearch = getTotalSearchHistory();
         int individualClusterSearch= getIndividualSearchHistory(String.valueOf(clusterNumberOfInterest));

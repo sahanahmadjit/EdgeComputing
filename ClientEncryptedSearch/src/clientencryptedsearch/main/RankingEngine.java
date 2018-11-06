@@ -1,5 +1,7 @@
 package clientencryptedsearch.main;
 
+import clientencryptedsearch.utilities.Constants;
+
 public class RankingEngine {
 
 
@@ -9,7 +11,15 @@ public class RankingEngine {
 
      CalculateAverageSimilarityDistance avgSimObj = new CalculateAverageSimilarityDistance();
      UserInterest usrInrstObj = new UserInterest();
- return  0;
+     ClusterSizeInfo clsSizeObj = new ClusterSizeInfo();
+
+     avgSimDistance =avgSimObj.getAVGSimilartiyDistanceOfCluster(clusterNumber);
+     userInterest = usrInrstObj.getUserIntersetSearchCalculation(Integer.valueOf(clusterNumber), Constants.TOTAL_NUMBER_OF_CLUSTER);
+     clusterSize = clsSizeObj.getClusterSizeInfo(clusterNumber);
+
+
+     semanticRadius = avgSimDistance + userInterest +clusterSize;
+ return  semanticRadius;
 
 
 
