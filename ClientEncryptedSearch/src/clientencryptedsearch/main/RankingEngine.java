@@ -115,7 +115,6 @@ public class RankingEngine {
                    ArrayList<String> removalPresentAbsItemList = new ArrayList<String>();
 
                    //Now check every Current Abstract Item
-
                     for(String crntAbs: lines){
                         if(semetricRadius>=(computeWUP(crntAbs,absCandidate))){ // between or in radius
                             //now check the weight
@@ -137,6 +136,12 @@ public class RankingEngine {
 
                    // now write down the  abstract again
                    Files.write(path, lines, StandardCharsets.UTF_8);
+               }
+
+               if(lines.size()==0){//Empty File
+                   lines.add(absCandidate);
+                   Files.write(path, lines, StandardCharsets.UTF_8);
+
                }
 
 
