@@ -68,6 +68,9 @@ public class ClientEncryptedSearch {
             case "-c":
                 clusterSizeInfo();
                 break;
+            case "-am":
+                modifyAbstract();
+                break;
 
 
 
@@ -91,6 +94,7 @@ public class ClientEncryptedSearch {
                 +"\tSimilarity Distance Calculation of Searched Word -av\n"
                 +"\tTerm Validity Checking -v\n"
                 +"\tClusterSize Info Collection -c\n"
+                +"\tModify Abstract item -am\n"
                 + "Choice: ");
         
         //Get input
@@ -137,6 +141,9 @@ public class ClientEncryptedSearch {
                 break;
             case "-c":
                 System.out.println("Cluster Size Info Collecting From Server");
+                break;
+            case "-am":
+                System.out.println("Modify Abstract Item");
                 break;
             default:
                 System.out.println("I'm sorry, I do not recognize that input");
@@ -252,5 +259,11 @@ public class ClientEncryptedSearch {
         ClusterSizeInfo collectClsuterSizeInfo = new ClusterSizeInfo();
         collectClsuterSizeInfo.acceptClusterSizeInfo();
         collectClsuterSizeInfo.writeClusterInfo();
+    }
+
+
+    public  void  modifyAbstract(){
+        RankingEngine rankAbstract = new RankingEngine();
+        rankAbstract.addReplaceAbstractItem();
     }
 }

@@ -48,8 +48,10 @@ public class CalculateAverageSimilarityDistance {
                         }
                 } catch (FileNotFoundException e) {
                     System.out.print(this.getClass().getName() + "Can't find the AVG Similarity Cluster file in the location");
+                    e.printStackTrace();
                 } catch (IOException e) {
                     System.out.print(this.getClass().getName() + " Can't read the AVG Similarity Cluster file in the location");
+                    e.printStackTrace();
                 }
             }
         }
@@ -65,6 +67,7 @@ public class CalculateAverageSimilarityDistance {
                 output.close();
             } catch (IOException e) {
                 System.out.print(this.getClass().getName()+"Can't write term to the AVG Similarity cluster file in the location");
+                e.printStackTrace();
             }
 
         }
@@ -91,8 +94,10 @@ public class CalculateAverageSimilarityDistance {
 
                 } catch (FileNotFoundException e) {
                     System.out.print(this.getClass().getName() + "Can't find the markov Data file in the location");
+                    e.printStackTrace();
                 } catch (IOException e) {
                     System.out.print(this.getClass().getName() + " Can't read the markov Data file in the location");
+                    e.printStackTrace();
                 }
             }
         }
@@ -108,6 +113,7 @@ public class CalculateAverageSimilarityDistance {
                 output.close();
             } catch (IOException e) {
                 System.out.print(this.getClass().getName()+"Can't write term to the markov Data file in the location");
+                e.printStackTrace();
             }
 
         }
@@ -157,8 +163,10 @@ public class CalculateAverageSimilarityDistance {
 
                 } catch (FileNotFoundException e) {
                     System.out.print(this.getClass().getName() + "Can't find search History file in location");
+                    e.printStackTrace();
                 } catch (IOException e) {
                     System.out.print(this.getClass().getName() + " Can't read search History file");
+                    e.printStackTrace();
                 }
 
             }
