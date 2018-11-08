@@ -60,7 +60,7 @@ public class RankingEngine {
          String[] parseFileNumber = clusterFileName.split("_");
          double semetricRadius = getSemanticDistanceRadiusForTerm(parseFileNumber[1]);
          HashMap<String,Double> abstractTermWeightMap = new HashMap<String, Double>();
-         ArrayList<String> currentAbstractElementList = new ArrayList<>();
+
 
 
 
@@ -98,24 +98,44 @@ public class RankingEngine {
 
 
 
-         List<String> lines = null;
+
          try {
 
 
              //Now Compare with main abstract with radius.
 
            for(String absCandidate: abstractTermWeightMap.keySet()){
+
                //Load all the current Abstract element to List
+               List<String> lines = null;
                lines = Files.readAllLines(path, StandardCharsets.UTF_8);
-               for(String term:lines){
-                   currentAbstractElementList.add(term);
-               }
-               if(!currentAbstractElementList.contains(absCandidate)){
 
-                   
+               if(!lines.contains(absCandidate)){ //new candidate for abstract item
 
+                   ArrayList<String> removalPresentAbsItemList = new ArrayList<String>();
 
-                   // If new term add in the last line
+                   //Now check every Current Abstract Item
+
+                    for(String crntAbs: lines){
+                        if(semetricRadius>=(computeWUP(crntAbs,absCandidate))){ // between or in radius
+                            //now check the weight
+                            double crntAbsWeight =  abstractTermWeightMap.get(crntAbs);
+                            double absCandidateWeight =  abstractTermWeightMap.get(absCandidate);
+
+                            if(crntAbsWeight<absCandidateWeight){ // Less weight remove
+                                    removalPresentAbsItemList.add(crntAbs);//Add the current item to remove List
+                                    lines.add(absCandidate); // new Candidate outperform Existing items ! so add it to the Abstract
+
+                            }
+
+                        }
+                    }
+
+                    for(String removeTerm : removalPresentAbsItemList){
+                        lines.remove(removeTerm);
+                    }
+
+                   // now write down the  abstract again
                    Files.write(path, lines, StandardCharsets.UTF_8);
                }
 
