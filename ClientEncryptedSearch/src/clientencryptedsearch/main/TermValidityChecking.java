@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class TermValidityChecking implements  Runnable {
+public class TermValidityChecking  {
 
 
     private  String term;
@@ -19,7 +19,7 @@ public class TermValidityChecking implements  Runnable {
 
 
     String currentSearch = null;
-    public boolean termValidityChecking (String folderPath){
+    public boolean termValidityChecking (String folderPath,boolean allCloudSearch){
         List<String> files = Util.getAbsoluteFilePathsFromFolder(folderPath);
 
         for(String file:files){
@@ -29,8 +29,8 @@ public class TermValidityChecking implements  Runnable {
                     Thread thread = new Thread();
                     ClientSearcher termSearch = new ClientSearcher(currentSearch);
                     termSearch.constructQuery();
-                    termSearch.searchTermInCluster();
-                    thread.run();
+                    termSearch.searchTermInCluster(allCloudSearch);
+                  //  thread.run();
                     ProcessTermSearchResult processResult = new ProcessTermSearchResult();
                     if(processResult.acceptResultForTermSearch()){ // Check the result if the searched term exist on the cloud or not
                         processResult.writeBestTermSearchHistoryANDAVG();
@@ -94,7 +94,7 @@ public class TermValidityChecking implements  Runnable {
     }
 
 
-    @Override
+  /*  @Override
     public void run() {
 
         try{
@@ -104,5 +104,5 @@ public class TermValidityChecking implements  Runnable {
             e.printStackTrace();
         }
 
-    }
+    }*/
 }

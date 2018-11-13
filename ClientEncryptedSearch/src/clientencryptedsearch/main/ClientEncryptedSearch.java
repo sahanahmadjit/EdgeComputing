@@ -64,7 +64,7 @@ public class ClientEncryptedSearch {
             case "-av":
                 similarityDistanceCalculation();
             case "-v":
-                termValidityChecking();
+                termValidityChecking(args[1]);
                 break;
             case "-c":
                 clusterSizeInfo();
@@ -138,7 +138,8 @@ public class ClientEncryptedSearch {
                 System.out.println("Searched Word Similarity Calculation in All Clusters");
                 break;
             case "-v":
-                System.out.println("Term Validity Checking");
+                System.out.println("All Cloud Search? Enter true/false");
+                args[1] = scan.nextLine();
                 break;
             case "-c":
                 System.out.println("Cluster Size Info Collecting From Server");
@@ -232,11 +233,12 @@ public class ClientEncryptedSearch {
     }
 
 
-    public  void termValidityChecking(){
+    public  void termValidityChecking(String allCloudSearch){
 
         TermValidityChecking termValidityChecking = new TermValidityChecking();
-        termValidityChecking.termValidityChecking(Constants.batchUploadLocation);
+        termValidityChecking.termValidityChecking(Constants.batchUploadLocation,Boolean.valueOf(allCloudSearch));
     }
+
 
 
     public void userInterestCalculation(){

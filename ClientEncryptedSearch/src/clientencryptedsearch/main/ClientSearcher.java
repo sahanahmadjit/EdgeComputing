@@ -254,7 +254,7 @@ public class ClientSearcher {
     Send search query to server.
      */
 
-    public void searchTermInCluster() {
+    public void searchTermInCluster(boolean allCloudSearch) {
         //First things first (I'm the realest) we have to fill allWeights with the encrypted data
         consolidateQuery();
         System.out.println("AllWeights Length:" +allWeights.size());
@@ -285,7 +285,14 @@ public class ClientSearcher {
 
                         ClientSearcher searcher = new ClientSearcher(term);
 
+                       if(!allCloudSearch) {
                        tempAbstractList =searcher.rankAbstractsForTermSearchInCluster();
+                       }
+                       else {
+                           for(int i=0;i<10;i++){ // For 10 Cluster. If cluster number vary need to change the stopping condition
+                               tempAbstractList.add(String.valueOf(i));
+                           }
+                       }
 
                        for(String clusterNumber: tempAbstractList){
                            rankOfAbstractList.add(clusterNumber);
@@ -306,7 +313,7 @@ public class ClientSearcher {
                             dos.writeUTF(clusterNumber);
                         }
 
-                        System.out.print(rankOfAbstractList.size());
+                      //  System.out.print(rankOfAbstractList.size());
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ex1) {
@@ -429,8 +436,8 @@ public class ClientSearcher {
         for (int i = 0; i < Config.numSearchedAbstracts && i < abstracts.size(); i++) {
             searchedAbstractNames.add(rankedAbstracts.poll().name);
         }
-        System.out.println("The Term Looking in the Abstract:" + originalQuery);
-        System.out.println("Will be searching over abstracts: " + searchedAbstractNames);
+     //   System.out.println("The Term Looking in the Abstract:" + originalQuery);
+     //   System.out.println("Will be searching over abstracts: " + searchedAbstractNames);
         
         if (Config.writeClusterChoices)
             ClientMetrics.writeClusterChoice(searchedAbstractNames, originalQuery);
@@ -477,8 +484,8 @@ public class ClientSearcher {
         for (int i = 0; i < Config.numSearchedAbstracts && i < abstracts.size(); i++) {
             searchedAbstractNames.add(rankedAbstracts.poll().name);
         }
-        System.out.println("The Term Looking in the Abstract:" + originalQuery);
-        System.out.println("Will be searching over abstracts: " + searchedAbstractNames);
+   //     System.out.println("The Term Looking in the Abstract:" + originalQuery);
+     //   System.out.println("Will be searching over abstracts: " + searchedAbstractNames);
 
         if (Config.writeClusterChoices)
             ClientMetrics.writeClusterChoice(searchedAbstractNames, originalQuery);

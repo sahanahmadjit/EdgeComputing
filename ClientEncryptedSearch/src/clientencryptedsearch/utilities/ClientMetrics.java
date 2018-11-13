@@ -40,7 +40,7 @@ public class ClientMetrics {
      * @param milliseconds Seconds it took to search
      */
     public static void writeSearchTime(long milliseconds, String query) {
-        System.out.println("Writing the search time to the metrics file");
+    //    System.out.println("Writing the search time to the metrics file");
         File file = new File(Constants.metricsFileName);
         
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file.getAbsolutePath(), true)))) {
@@ -57,7 +57,7 @@ public class ClientMetrics {
      * @param query 
      */
     public static void writeAbstractTime(long milliseconds, String query) {
-        System.out.println("Writing the time to rank abstracts to the metrics file.");
+    //    System.out.println("Writing the time to rank abstracts to the metrics file.");
         File file = new File(Constants.metricsFileName);
         
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file.getAbsolutePath(), true)))) {
@@ -74,7 +74,7 @@ public class ClientMetrics {
      * @param query 
      */
     public static void writeCloudTime(long milliseconds, String query) {
-        System.out.println("Writing the time the cloud took to the metrics file.");
+      //  System.out.println("Writing the time the cloud took to the metrics file.");
         File file = new File(Constants.metricsFileName);
         
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file.getAbsolutePath(), true)))) {
@@ -98,7 +98,7 @@ public class ClientMetrics {
      * @param query
      */
     public static void writeQueryTime(long milliseconds, String query ) {
-        System.out.println("Writing the query processing time to the metrics file");
+     //   System.out.println("Writing the query processing time to the metrics file");
         File file = new File(Constants.metricsFileName);
         
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file.getAbsolutePath(), true)))) {
@@ -115,7 +115,7 @@ public class ClientMetrics {
      * @param abstractNames 
      */
     public static void writeClusterChoice(ArrayList<String> abstractNames, String query) {
-        System.out.println("Writing the choices of clusters to a file.");
+   //     System.out.println("Writing the choices of clusters to a file.");
         File file = new File(Constants.clusterChoiceFileName + "-" + Config.dataSize + "-" + Config.s + ".txt");
         
         if (!file.exists()) {
