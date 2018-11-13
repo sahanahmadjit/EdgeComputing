@@ -54,6 +54,7 @@ public class ClientEncryptedSearch {
                 calcAbstracts(args[1]);
             case "-b":
                 batchUpload(args[1]);
+                break;
             case "-m":
                  markovchainCalculation();
                  break;

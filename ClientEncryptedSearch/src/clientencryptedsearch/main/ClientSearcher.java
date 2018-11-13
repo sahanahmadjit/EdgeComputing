@@ -178,7 +178,7 @@ public class ClientSearcher {
                 synonymWeights.put(syn, weight);
             }
         }
-        System.out.println("Synonyms: " + synonymWeights);
+       // System.out.println("Synonyms: " + synonymWeights);
     }
     
     public void addWikiTerms() {

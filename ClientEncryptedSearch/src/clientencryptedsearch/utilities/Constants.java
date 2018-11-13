@@ -35,6 +35,8 @@ public class Constants {
     public  static  String clusterSizeInfoFileName = "clusterSizeInfo.txt";
     public  static  String markovAbastractCandidate = ".."+ File.separator+"EdgeStore" + File.separator+ "AbstractCandidate";
     public  static  String markovAbstractLocation = ".." + File.separator + "EdgeStore" + File.separator + "Abstract";
+    public  static  String noMatchRecordLocation = ".." + File.separator+"EdgeStore" + File.separator + "searchHistory";
+    public static  String noMatchRecordFileName = "noMatchRecord.txt";
     //Path for config props
     // IDE Version
     public static String configLocation = "src" + File.separator + "clientencryptedsearch" + File.separator + "utilities" + File.separator;
