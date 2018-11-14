@@ -112,6 +112,7 @@ class RetrieveUploadedFiles {
         
         try {
             Files.move(sourcePath, storagePath, REPLACE_EXISTING);
+            System.out.println("File Moved " + Constants.watchLocation + "to " + Constants.storageLocation+ fileName);
         } catch (IOException e) {
             System.out.println(this.getClass().getName() + ": Error moving file " + fileName);
         }

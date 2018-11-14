@@ -101,6 +101,8 @@ public class SearchTermInCluster implements  Serializable{
                             clusterList.add(searchedClusterNames.get(trackPosition));
                             searchResultMap.put(term,clusterList);
                         }
+
+                        break; //One term can't be appear in two cluster
                     }
 
 
@@ -127,9 +129,11 @@ public class SearchTermInCluster implements  Serializable{
                     String [] spiltWords =  st.split("\\|.\\|");
                     if(spiltWords[0].equals(term)){
                         System.out.println("\nMatch Find on Cluster File!");
+                  //      System.out.println(st);
                         System.out.println("Term: " + term + " clusterFile: "+ clusterFileName);
                         matchfind = true;
-                        return matchfind;
+                        break;
+                        //return matchfind;
                     }
 
                 }
