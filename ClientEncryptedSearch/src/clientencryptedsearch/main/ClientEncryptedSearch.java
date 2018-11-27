@@ -246,15 +246,19 @@ public class ClientEncryptedSearch {
 
         double userInterest;
         UserInterest userInterestCal = new UserInterest();
-   //     userInterest=userInterestCal.userIntersetSearchCalculation(8,Constants.TOTAL_NUMBER_OF_CLUSTER);
+        for (int i=0;i<Constants.TOTAL_NUMBER_OF_CLUSTER;i++) {
+            userInterest = userInterestCal.getUserIntersetSearchCalculation(i, Constants.TOTAL_NUMBER_OF_CLUSTER);
 
-     //   System.out.println("User Interest For Cluster 8:  "+ userInterest);
+            System.out.println("User Interest For Cluster"+ i+ ":  " + userInterest);
+        }
     }
 
     public void similarityDistanceCalculation(){
         CalculateAverageSimilarityDistance simMeasure = new CalculateAverageSimilarityDistance();
-        System.out.print("AvgSimilarity Distance for Cluster: ");
-        System.out.println(simMeasure.getAVGSimilartiyDistanceOfCluster(String.valueOf(8)));
+        for(int i=0;i<Constants.TOTAL_NUMBER_OF_CLUSTER;i++) {
+            System.out.print("AvgSimilarity Distance for Cluster"+ i+": ");
+            System.out.println(simMeasure.getAVGSimilartiyDistanceOfCluster(String.valueOf(i)));
+        }
     }
 
 

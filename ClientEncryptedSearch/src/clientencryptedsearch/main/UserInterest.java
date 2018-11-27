@@ -196,7 +196,7 @@ public class UserInterest {
         double avgClusterSearch = totalSearch/totalNumberOfCluster;
         double gap = individualClusterSearch - avgClusterSearch;
         double percentage = gap/avgClusterSearch;
-
+        percentage/=Constants.FACTOR_USER_INTEREST;
         return percentage;
     }
 

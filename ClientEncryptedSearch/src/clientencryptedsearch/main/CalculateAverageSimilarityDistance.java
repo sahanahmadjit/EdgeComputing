@@ -150,16 +150,34 @@ public class CalculateAverageSimilarityDistance {
                                 de
 
                      */
+                    int numberOfTerm,totalNumberOfValidWordInWordNet=0;
+
 
 
                     for(int firstTerm = 0; firstTerm<lines.size();firstTerm++){
+
+                        numberOfTerm=0;
+
                         for (int secondTerm = firstTerm+1; secondTerm<lines.size();secondTerm++){
-                          AVG_SIM_DISTANCE_VALUE+=computeWUP(lines.get(firstTerm),lines.get(secondTerm));
+                            double similarityDistance = computeWUP(lines.get(firstTerm),lines.get(secondTerm));
+
+                             if(similarityDistance>0){ //if word not present then the value will be return by -1. The word net range 0 to 1
+                                 AVG_SIM_DISTANCE_VALUE+= similarityDistance;
+                                 numberOfTerm++;
+                                     }
+
                         }
+                        if(numberOfTerm !=0){ //number of term value will be 0 for word didn't find on word net. the divide operation will make 0 result
+                            AVG_SIM_DISTANCE_VALUE /= numberOfTerm;
+                            totalNumberOfValidWordInWordNet++;
+                        }
+
+
                     }
 
 
-                    AVG_SIM_DISTANCE_VALUE/= lines.size();
+                    AVG_SIM_DISTANCE_VALUE/= totalNumberOfValidWordInWordNet;
+                //    AVG_SIM_DISTANCE_VALUE /= Constants.FACTOR_ASD;
 
                 } catch (FileNotFoundException e) {
                     System.out.print(this.getClass().getName() + "Can't find search History file in location");

@@ -20,6 +20,9 @@ public class ProcessTermSearchResult  {
     Map<String,Float> sortedTermWeightHashMap = new HashMap<String,Float>();
     HashMap<String,ArrayList<String>>termClusterList = new HashMap<String,ArrayList<String>>();
     Map <String,Float> termWeightMap = new HashMap<String, Float>();
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLUE = "\033[0;34m";
 
     public  void sortedTermMap(Map<String,Float> sortedTermHashMap){
         sortedTermWeightHashMap = sortedTermHashMap;
@@ -74,7 +77,8 @@ public class ProcessTermSearchResult  {
                 scanning = false;
             }
             catch (IOException ex) {
-                System.err.println("Connect failed, waiting and will try again.");
+                System.err.println(ANSI_GREEN +"Response from Server::Loading...." + ANSI_RESET);
+
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ex1) {

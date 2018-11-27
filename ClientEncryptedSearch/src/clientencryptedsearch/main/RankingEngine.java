@@ -32,7 +32,7 @@ public class RankingEngine {
      clusterSize = clsSizeObj.getClusterSizeInfo(clusterNumber);
 
 
-     semanticRadius = avgSimDistance + userInterest +clusterSize;
+     semanticRadius = avgSimDistance;// + userInterest;// +clusterSize;
  return  semanticRadius;
 
 
@@ -113,26 +113,64 @@ public class RankingEngine {
                if(!lines.contains(absCandidate)){ //new candidate for abstract item
 
                    ArrayList<String> removalPresentAbsItemList = new ArrayList<String>();
+                   ArrayList<String> addNewAbsItemList = new ArrayList<String>();
 
                    //Now check every Current Abstract Item
                     for(String crntAbs: lines){
-                        if(semetricRadius>=(computeWUP(crntAbs,absCandidate))){ // between or in radius
+
+                        double computedRadius = computeWUP(crntAbs,absCandidate);
+                        if(computedRadius>=semetricRadius){ // between or in radius
                             //now check the weight
-                            double crntAbsWeight =  abstractTermWeightMap.get(crntAbs);
-                            double absCandidateWeight =  abstractTermWeightMap.get(absCandidate);
+                            if(abstractTermWeightMap.containsKey(crntAbs)){ //check the current abs item present on the latest markov chain or not
+                                double crntAbsWeight =  abstractTermWeightMap.get(crntAbs);
+                                double absCandidateWeight =  abstractTermWeightMap.get(absCandidate);
 
-                            if(crntAbsWeight<absCandidateWeight){ // Less weight remove
+                                if(crntAbsWeight<absCandidateWeight){ // Less weight remove
                                     removalPresentAbsItemList.add(crntAbs);//Add the current item to remove List
-                                    lines.add(absCandidate); // new Candidate outperform Existing items ! so add it to the Abstract
+                                    if(!addNewAbsItemList.contains(absCandidate)) {
+                                        addNewAbsItemList.add(absCandidate); // new Candidate outperform Existing items ! so add it to the Abstract
 
+                                    }
+                                    break;// One of the current abstract have much weight than the absCandidate
+                                }
+                                else { //current abstract higher weight. So if abscandidate added to addNewItemList lets remove it.
+                                    if(!removalPresentAbsItemList.contains(absCandidate)){
+                                        removalPresentAbsItemList.add(absCandidate);
+                                    }
+                                    if(addNewAbsItemList.contains(absCandidate)){
+                                        addNewAbsItemList.remove(absCandidate);
+                                    }
+                                    break; // This abscandidate no longer valid
+                                }
+                            }
+                            else {
+                                removalPresentAbsItemList.add(crntAbs);//Add the current item to remove List as it's not present on the latest markov chain
+                                if(!addNewAbsItemList.contains(absCandidate)) {
+                                    addNewAbsItemList.add(absCandidate); // new Candidate outperform Existing items ! so add it to the Abstract
+                                }
+                            }
+
+
+                        }
+
+                        else {
+                            if(!addNewAbsItemList.contains(absCandidate)){
+                                addNewAbsItemList.add(absCandidate);
                             }
 
                         }
+
                     }
 
-                    for(String removeTerm : removalPresentAbsItemList){
-                        lines.remove(removeTerm);
+
+
+                    for(String addTerm: addNewAbsItemList){
+                        lines.add(addTerm);
                     }
+
+                   for(String removeTerm : removalPresentAbsItemList){
+                       lines.remove(removeTerm);
+                   }
 
                    // now write down the  abstract again
                    Files.write(path, lines, StandardCharsets.UTF_8);
