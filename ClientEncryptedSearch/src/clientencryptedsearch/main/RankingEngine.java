@@ -1,22 +1,25 @@
 package clientencryptedsearch.main;
 
 import clientencryptedsearch.utilities.Constants;
+import clientencryptedsearch.utilities.StopwordsRemover;
+import edu.cmu.lti.jawjaw.pobj.Synset;
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
 import edu.cmu.lti.lexical_db.NictWordNet;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
+import edu.mit.jwi.item.IndexWord;
+import edu.mit.jwi.item.POS;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RankingEngine {
+
+    StopwordsRemover stop = new StopwordsRemover("wiki_stopwords_en.txt");
 
 
  public  double  getSemanticDistanceRadiusForTerm(String clusterNumber){
@@ -103,89 +106,94 @@ public class RankingEngine {
 
 
              //Now Compare with main abstract with radius.
+             for(String absCandidateParent: abstractTermWeightMap.keySet()) {
 
-           for(String absCandidate: abstractTermWeightMap.keySet()){
+                 //parse based on Space
 
-               //Load all the current Abstract element to List
-               List<String> lines = null;
-               lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+                 String[] absCandidateArray = absCandidateParent.split("\\s");
+                 ArrayList<String> absCandidateList = new ArrayList<String>();
 
-               if(!lines.contains(absCandidate)){ //new candidate for abstract item
+                 for(String term:absCandidateArray){
+                     absCandidateList.add(term);
+                 }
+                 stop.remove(absCandidateList);
 
-                   ArrayList<String> removalPresentAbsItemList = new ArrayList<String>();
-                   ArrayList<String> addNewAbsItemList = new ArrayList<String>();
+                 for (String absCandidate : absCandidateList) {
+                     //Load all the current Abstract element to List
+                     List<String> lines = null;
+                     lines = Files.readAllLines(path, StandardCharsets.UTF_8);
 
-                   //Now check every Current Abstract Item
-                    for(String crntAbs: lines){
+                     if (!lines.contains(absCandidate)) { //new candidate for abstract item
 
-                        double computedRadius = computeWUP(crntAbs,absCandidate);
-                        if(computedRadius>=semetricRadius){ // between or in radius
-                            //now check the weight
-                            if(abstractTermWeightMap.containsKey(crntAbs)){ //check the current abs item present on the latest markov chain or not
-                                double crntAbsWeight =  abstractTermWeightMap.get(crntAbs);
-                                double absCandidateWeight =  abstractTermWeightMap.get(absCandidate);
+                         ArrayList<String> removalPresentAbsItemList = new ArrayList<String>();
+                         ArrayList<String> addNewAbsItemList = new ArrayList<String>();
 
-                                if(crntAbsWeight<absCandidateWeight){ // Less weight remove
-                                    removalPresentAbsItemList.add(crntAbs);//Add the current item to remove List
-                                    if(!addNewAbsItemList.contains(absCandidate)) {
-                                        addNewAbsItemList.add(absCandidate); // new Candidate outperform Existing items ! so add it to the Abstract
+                         //Now check every Current Abstract Item
+                         for (String crntAbs : lines) {
 
-                                    }
-                                    break;// One of the current abstract have much weight than the absCandidate
-                                }
-                                else { //current abstract higher weight. So if abscandidate added to addNewItemList lets remove it.
-                                    if(!removalPresentAbsItemList.contains(absCandidate)){
-                                        removalPresentAbsItemList.add(absCandidate);
-                                    }
-                                    if(addNewAbsItemList.contains(absCandidate)){
-                                        addNewAbsItemList.remove(absCandidate);
-                                    }
-                                    break; // This abscandidate no longer valid
-                                }
-                            }
-                            else {
-                                removalPresentAbsItemList.add(crntAbs);//Add the current item to remove List as it's not present on the latest markov chain
-                                if(!addNewAbsItemList.contains(absCandidate)) {
-                                    addNewAbsItemList.add(absCandidate); // new Candidate outperform Existing items ! so add it to the Abstract
-                                }
-                            }
+                             double computedRadius = computeWUP(crntAbs, absCandidate);
+                             if (computedRadius >= semetricRadius) { // between or in radius
+                                 //now check the weight
+                                 if (abstractTermWeightMap.containsKey(crntAbs)) { //check the current abs item present on the latest markov chain or not
+                                     double crntAbsWeight = abstractTermWeightMap.get(crntAbs);
+                                     double absCandidateWeight = abstractTermWeightMap.get(absCandidateParent); // While comparing weight use the parent weight
 
+                                     if (crntAbsWeight < absCandidateWeight) { // Less weight remove
+                                         removalPresentAbsItemList.add(crntAbs);//Add the current item to remove List
+                                         if (!addNewAbsItemList.contains(absCandidate)) {
+                                             addNewAbsItemList.add(absCandidate); // new Candidate outperform Existing items ! so add it to the Abstract
 
-                        }
-
-                        else {
-                            if(!addNewAbsItemList.contains(absCandidate)){
-                                addNewAbsItemList.add(absCandidate);
-                            }
-
-                        }
-
-                    }
+                                         }
+                                         break;// One of the current abstract have much weight than the absCandidate
+                                     } else { //current abstract higher weight. So if abscandidate added to addNewItemList lets remove it.
+                                         if (!removalPresentAbsItemList.contains(absCandidate)) {
+                                             removalPresentAbsItemList.add(absCandidate);
+                                         }
+                                         if (addNewAbsItemList.contains(absCandidate)) {
+                                             addNewAbsItemList.remove(absCandidate);
+                                         }
+                                         break; // This abscandidate no longer valid
+                                     }
+                                 } else {
+                                     removalPresentAbsItemList.add(crntAbs);//Add the current item to remove List as it's not present on the latest markov chain
+                                     if (!addNewAbsItemList.contains(absCandidate)) {
+                                         addNewAbsItemList.add(absCandidate); // new Candidate outperform Existing items ! so add it to the Abstract
+                                     }
+                                 }
 
 
+                             } else {
+                                 if (!addNewAbsItemList.contains(absCandidate)) {
+                                     addNewAbsItemList.add(absCandidate);
+                                 }
 
-                    for(String addTerm: addNewAbsItemList){
-                        lines.add(addTerm);
-                    }
+                             }
 
-                   for(String removeTerm : removalPresentAbsItemList){
-                       lines.remove(removeTerm);
-                   }
-
-                   // now write down the  abstract again
-                   Files.write(path, lines, StandardCharsets.UTF_8);
-               }
-
-               if(lines.size()==0){//Empty File
-                   lines.add(absCandidate);
-                   Files.write(path, lines, StandardCharsets.UTF_8);
-
-               }
+                         }
 
 
-           }
+                         for (String addTerm : addNewAbsItemList) {
+                             lines.add(addTerm);
+                         }
+
+                         for (String removeTerm : removalPresentAbsItemList) {
+                             lines.remove(removeTerm);
+                         }
+
+                         // now write down the  abstract again
+                         Files.write(path, lines, StandardCharsets.UTF_8);
+                     }
+
+                     if (lines.size() == 0) {//Empty File
+                         lines.add(absCandidate);
+                         Files.write(path, lines, StandardCharsets.UTF_8);
+
+                     }
 
 
+                 }
+
+             }
 
          } catch (IOException e) {
              e.printStackTrace();
@@ -244,6 +252,8 @@ public class RankingEngine {
 
 
  }
+
+
 
     private static ILexicalDatabase db = new NictWordNet();
     private double computeWUP (String word1, String word2) {

@@ -22,7 +22,9 @@ public class SearchTermInCluster implements  Serializable{
     private ArrayList<String> termToSearchInClsuter = new ArrayList<String>();
     public HashMap<String,ArrayList<String>> searchResultMap;
     public  HashMap<String,Float> receiveDataMap = new HashMap<String, Float>();
-
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLUE = "\033[0;34m";
 
 
     public void  acceptTermSearchInformationForCluster(){
@@ -58,7 +60,7 @@ public class SearchTermInCluster implements  Serializable{
                receiveDataMap.put(term,weight);
             }
 
-            System.out.print("Number Of Total Term Will be Searched In Cluster:"+termToSearchInClsuter.size());
+            System.out.print(ANSI_BLUE+"Number Of Total Term Will be Searched In Cluster:"+termToSearchInClsuter.size()+ANSI_RESET);
             dis.close();
             sock.close();
             serv.close();
@@ -90,11 +92,12 @@ public class SearchTermInCluster implements  Serializable{
                     clusterFileName = Constants.clusterLocation + File.separator + "cluster_" + searchedClusterNames.get(trackPosition) + ".txt";
                     if(searchTermInCluster(clusterFileName,term)){
                         ArrayList<String> clusterList = new ArrayList<String>();
-                        if(searchResultMap.containsKey(term)){
+                        if(searchResultMap.containsKey(term)){ //This if condition may not be needed but any way lets keep it.
 
                         clusterList = searchResultMap.get(term);
                         clusterList.add(searchedClusterNames.get(trackPosition));
                         searchResultMap.put(term,clusterList);
+                        System.out.println("DUPLICATE_TERM_FIND_OUT");
                         }
 
                         else {
@@ -128,7 +131,7 @@ public class SearchTermInCluster implements  Serializable{
 
                     String [] spiltWords =  st.split("\\|.\\|");
                     if(spiltWords[0].equals(term)){
-                        System.out.println("\nMatch Find on Cluster File!");
+                        System.out.println(ANSI_GREEN+"\nMatch Find on Cluster File!" + ANSI_RESET);
                   //      System.out.println(st);
                         System.out.println("Term: " + term + " clusterFile: "+ clusterFileName);
                         matchfind = true;
@@ -146,43 +149,50 @@ public class SearchTermInCluster implements  Serializable{
 
 
     public void sendResultToClient(){
-        System.out.println("\nSending search results to client...");
+
         // Uses the same connection from before.  Maybe bad?
-        try {
-            serv = new ServerSocket(Config.socketPort);
-            sock = serv.accept();
-            DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
+        boolean scanning = true;
 
-            int numSearchResults = Math.min(Config.numSearchResults, searchResultMap.size());
-            dos.writeInt(numSearchResults);
+        while (scanning) {
+            try {
+                serv = new ServerSocket(Config.socketPort);
+                sock = serv.accept();
+                DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
 
-            for(String term: searchResultMap.keySet()) {
+                int numSearchResults = Math.min(Config.numSearchResults, searchResultMap.size());
+                dos.writeInt(numSearchResults);
 
-                Float weight = receiveDataMap.get(term);
-                dos.writeUTF(term);
-                dos.writeFloat(weight);
-                //The ArrayList that contain cluster number for any term
-                ArrayList<String> clusterNumberList = new ArrayList<String>();
-                clusterNumberList = searchResultMap.get(term);
-                //Send Number of Cluster file for each term
-                dos.writeInt(clusterNumberList.size());
-                for(int i=0;i<clusterNumberList.size();i++) {
-                dos.writeUTF(clusterNumberList.get(i));
+                for (String term : searchResultMap.keySet()) {
+
+                    Float weight = receiveDataMap.get(term);
+                    dos.writeUTF(term);
+                    dos.writeFloat(weight);
+                    //The ArrayList that contain cluster number for any term
+                    ArrayList<String> clusterNumberList = new ArrayList<String>();
+                    clusterNumberList = searchResultMap.get(term);
+                    //Send Number of Cluster file for each term
+                    dos.writeInt(clusterNumberList.size());
+                    for (int i = 0; i < clusterNumberList.size(); i++) {
+                        dos.writeUTF(clusterNumberList.get(i));
+
+                    }
 
                 }
 
-            }
 
-
-            if(searchResultMap.size()==0){ //if no match find on the cluster
-                System.out.println("No Match Find On Cluster");
+                if (searchResultMap.size() == 0) { //if no match find on the cluster
+                    System.out.println("No Match Find On Cluster");
+                }
+                // If we're taking metrics, send the time info back to the client.
+                dos.close();
+                sock.close();
+                serv.close();
+                scanning = false;
+                System.out.println("\nSending search results to client...");
+            } catch (IOException ex) {
+                System.out.println(ANSI_GREEN + "Sending Search Result to Client....."+ ANSI_RESET);
+                Logger.getLogger(CloudSearcher.class.getName()).log(Level.SEVERE, null, ex);
             }
-            // If we're taking metrics, send the time info back to the client.
-            dos.close();
-            sock.close();
-            serv.close();
-        } catch (IOException ex) {
-            Logger.getLogger(CloudSearcher.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
