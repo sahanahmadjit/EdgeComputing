@@ -2,16 +2,21 @@ package clientencryptedsearch.main;
 
 
 import clientencryptedsearch.utilities.Constants;
+import clientencryptedsearch.utilities.StopwordsRemover;
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
 import edu.cmu.lti.lexical_db.NictWordNet;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
 import edu.cmu.lti.ws4j.util.WS4JConfiguration;
+import sun.util.locale.provider.AvailableLanguageTags;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CalculateAverageSimilarityDistance {
@@ -19,7 +24,8 @@ public class CalculateAverageSimilarityDistance {
 
     double AVG_SIM_DISTANCE_VALUE;
     double SUM_AVG_SIM_DISTANCE_VALUE;
-
+    double precisionVal = 10000000000.0;
+    StopwordsRemover stop = new StopwordsRemover("wiki_stopwords_en.txt");
 
     public  void writeTermToClusterFile( String term, String cluster_File_Number){
 
@@ -124,11 +130,11 @@ public class CalculateAverageSimilarityDistance {
 
     public double getAVGSimilartiyDistanceOfCluster(String cluster_File_Number){
 
-        AVG_SIM_DISTANCE_VALUE = 0.0;
+
         File folder = new File(Constants.clusterAvgSimDistanceLocation);
         File[] listOfFiles = folder.listFiles();
         boolean fileExisted = false;
-
+        double temp= 0.0;
 
         for(int i =0;i<listOfFiles.length;i++){
             if(listOfFiles[i].getName().equals("cluster_"+cluster_File_Number)){
@@ -150,34 +156,80 @@ public class CalculateAverageSimilarityDistance {
                                 de
 
                      */
-                    int numberOfTerm,totalNumberOfValidWordInWordNet=0;
+                    double numberOfTerm,totalNumberOfValidWordInWordNet=0;
 
-
+                    numberOfTerm=0;
+                    AVG_SIM_DISTANCE_VALUE = 0.0;
 
                     for(int firstTerm = 0; firstTerm<lines.size();firstTerm++){
 
-                        numberOfTerm=0;
+
 
                         for (int secondTerm = firstTerm+1; secondTerm<lines.size();secondTerm++){
-                            double similarityDistance = computeWUP(lines.get(firstTerm),lines.get(secondTerm));
+
+                            String[] firstTermArray = lines.get(firstTerm).split("\\s");
+                            String [] secondTermArray = lines.get(secondTerm).split("\\s");
+                            ArrayList<String> firstTermList = new ArrayList<String>();
+                            ArrayList<String> secondTermList = new ArrayList<String>();
+
+                            for(String term:firstTermArray){
+                                firstTermList.add(term);
+                            }
+
+                            for(String term: secondTermArray){
+                                secondTermList.add(term);
+                            }
+                            stop.remove(firstTermList);
+                            stop.remove(secondTermList);
+
+
+                            for(String firstWord: firstTermList){
+                                for(String secondWord:secondTermList){
+                                  double  similarityDistance =  (computeWUP(firstWord,secondWord));
+                                  double roundSimilarityDistance;
+                                  if(similarityDistance>1.00){
+
+                                        roundSimilarityDistance = 1.0; // Exact Same word comparison gives 1.7976931348623157E308 don't know why wu palmer shows such value. It should be one
+                                  }
+                                  else {
+                                       roundSimilarityDistance = Math.round( similarityDistance * precisionVal) / precisionVal;
+                                  }
+
+
+
+                                    if(roundSimilarityDistance>0){ //if word not present then the value will be return by -1. The word net range 0 to 1
+                                        AVG_SIM_DISTANCE_VALUE+= roundSimilarityDistance;
+                                        numberOfTerm++;
+                                    }
+                                }
+                            }
+
+                       /*    double similarityDistance = computeWUP(lines.get(firstTerm),lines.get(secondTerm));
 
                              if(similarityDistance>0){ //if word not present then the value will be return by -1. The word net range 0 to 1
                                  AVG_SIM_DISTANCE_VALUE+= similarityDistance;
                                  numberOfTerm++;
-                                     }
+                                     }*/
 
                         }
-                        if(numberOfTerm !=0){ //number of term value will be 0 for word didn't find on word net. the divide operation will make 0 result
-                            AVG_SIM_DISTANCE_VALUE /= numberOfTerm;
+                  /*      if(numberOfTerm !=0){ //number of term value will be 0 for word didn't find on word net. the divide operation will make 0 result
+
+                            temp += AVG_SIM_DISTANCE_VALUE;
+                            System.out.println(temp + "number of Term:" + numberOfTerm);
+
+                           AVG_SIM_DISTANCE_VALUE /= numberOfTerm;
                             totalNumberOfValidWordInWordNet++;
-                        }
+                        }*/
 
 
                     }
 
 
-                    AVG_SIM_DISTANCE_VALUE/= totalNumberOfValidWordInWordNet;
-                //    AVG_SIM_DISTANCE_VALUE /= Constants.FACTOR_ASD;
+                  //  AVG_SIM_DISTANCE_VALUE/= totalNumberOfValidWordInWordNet;
+
+                    System.out.println("\nTotal Number of Term Compared:" + numberOfTerm + " Total Sim Distance Value: " + AVG_SIM_DISTANCE_VALUE);
+                    System.out.print("Average Value: ");
+                    AVG_SIM_DISTANCE_VALUE /= numberOfTerm;
 
                 } catch (FileNotFoundException e) {
                     System.out.print(this.getClass().getName() + "Can't find search History file in location");
@@ -189,7 +241,8 @@ public class CalculateAverageSimilarityDistance {
 
             }
         }
-        return AVG_SIM_DISTANCE_VALUE;
+        return Math.round( AVG_SIM_DISTANCE_VALUE * precisionVal ) / precisionVal;
+
     }
 
 
@@ -216,6 +269,15 @@ public class CalculateAverageSimilarityDistance {
         WS4JConfiguration.getInstance().setMFS(true);
         double s = new WuPalmer(db).calcRelatednessOfWords(word1, word2);
         return s;
+    }
+
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 }

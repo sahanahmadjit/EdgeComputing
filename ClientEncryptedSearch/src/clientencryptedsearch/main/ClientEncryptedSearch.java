@@ -63,6 +63,7 @@ public class ClientEncryptedSearch {
                 break;
             case "-av":
                 similarityDistanceCalculation();
+                break;
             case "-v":
                 termValidityChecking(args[1]);
                 break;

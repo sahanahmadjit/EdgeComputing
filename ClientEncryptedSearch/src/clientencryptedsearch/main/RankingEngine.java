@@ -129,7 +129,12 @@ public class RankingEngine {
                          ArrayList<String> addNewAbsItemList = new ArrayList<String>();
 
                          //Now check every Current Abstract Item
-                         for (String crntAbs : lines) {
+                         for (int j=0;j<lines.size();j++) {
+
+                             String crntAbs = lines.get(j);
+                             if(j==0){
+                                 continue; // first line for cluster number
+                             }
 
                              double computedRadius = computeWUP(crntAbs, absCandidate);
                              if (computedRadius >= semetricRadius) { // between or in radius
@@ -145,7 +150,10 @@ public class RankingEngine {
 
                                          }
                                          break;// One of the current abstract have much weight than the absCandidate
-                                     } else { //current abstract higher weight. So if abscandidate added to addNewItemList lets remove it.
+                                     }
+
+
+                                     else { //current abstract higher weight. So if abscandidate added to addNewItemList lets remove it.
                                          if (!removalPresentAbsItemList.contains(absCandidate)) {
                                              removalPresentAbsItemList.add(absCandidate);
                                          }
@@ -185,6 +193,7 @@ public class RankingEngine {
                      }
 
                      if (lines.size() == 0) {//Empty File
+                         lines.add(parseFileNumber[1]);
                          lines.add(absCandidate);
                          Files.write(path, lines, StandardCharsets.UTF_8);
 
@@ -200,53 +209,45 @@ public class RankingEngine {
          }
 
 
+/*
+    In this portion eliminate the noun pharase that not present in the word Net
+
+ */
 
 
-
-
-
-
-
-    /*     if(listOfFiles[i].getName().equals("cluster_"+cluster_File_Number)){
-             fileExisted = true;
-             try {
-                 File file;
-                 file = listOfFiles[i];
-                 Path path = Paths.get(Constants.clusterAvgSimDistanceLocation+File.separator+"cluster_"+cluster_File_Number);
-                 List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
-
-                 if(lines.contains(term)){
-                     break;
-                 }
-                 else {
-
-                     lines.add(term); // If new term add in the last line
-                     Files.write(path, lines, StandardCharsets.UTF_8);
-                 }
-             } catch (FileNotFoundException e) {
-                 System.out.print(this.getClass().getName() + "Can't find the AVG Similarity Cluster file in the location");
-                 e.printStackTrace();
-             } catch (IOException e) {
-                 System.out.print(this.getClass().getName() + " Can't read the AVG Similarity Cluster file in the location");
-                 e.printStackTrace();
-             }
-         }
-     }
-
-
-     if(!fileExisted){
-         File file = new File(Constants.clusterAvgSimDistanceLocation+File.separator+"cluster_"+cluster_File_Number);
-         BufferedWriter output = null;
+    /*     List<String> abstractLines = null;
          try {
-             output = new BufferedWriter(new FileWriter(file));
-             output.write(term);
-             output.flush();
-             output.close();
+             abstractLines = Files.readAllLines(path, StandardCharsets.UTF_8);
+             ArrayList <String> removeNounThatNotPresentInWordNet = new ArrayList<String>();
+
+             for(String firstItem: abstractLines){
+                   double similarityDistanceCheck= 0;
+                   for(String secondItem: abstractLines){
+                       if(!firstItem.equals(secondItem)){ //similar item gives value
+                       similarityDistanceCheck+= computeWUP(firstItem,secondItem);
+                       if(similarityDistanceCheck>0){
+                           break; //valid item no need to check further
+                       }
+                       }
+                   }
+
+                   if(similarityDistanceCheck ==0){
+                       removeNounThatNotPresentInWordNet.add(firstItem);
+                   }
+             }
+
+             for(String removeItem: removeNounThatNotPresentInWordNet){
+                 abstractLines.remove(removeItem);
+             }
+
+             Files.write(path, abstractLines, StandardCharsets.UTF_8);
+
          } catch (IOException e) {
-             System.out.print(this.getClass().getName()+"Can't write term to the AVG Similarity cluster file in the location");
              e.printStackTrace();
+             System.out.println("Can't read or write abstract files noun pharase removal stage");
          }
 */
+
      }
 
 

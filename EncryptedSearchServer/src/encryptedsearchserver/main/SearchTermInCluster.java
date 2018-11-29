@@ -60,7 +60,10 @@ public class SearchTermInCluster implements  Serializable{
                receiveDataMap.put(term,weight);
             }
 
-            System.out.print(ANSI_BLUE+"Number Of Total Term Will be Searched In Cluster:"+termToSearchInClsuter.size()+ANSI_RESET);
+            System.out.println(ANSI_BLUE+"Number Of Total Term Will be Searched In Cluster: "+termToSearchInClsuter.size()+ANSI_RESET);
+            for(String clusterNumber: searchedClusterNames){
+                System.out.println("Cluster Number" + clusterNumber);
+            }
             dis.close();
             sock.close();
             serv.close();
