@@ -73,6 +73,9 @@ public class ClientEncryptedSearch {
             case "-am":
                 modifyAbstract();
                 break;
+            case "-d":
+                drawSamplingQuality();
+                break;
 
 
 
@@ -97,6 +100,7 @@ public class ClientEncryptedSearch {
                 +"\tTerm Validity Checking -v\n"
                 +"\tClusterSize Info Collection -c\n"
                 +"\tModify Abstract item -am\n"
+                +"\tDraw Sample Quality -d\n"
                 + "Choice: ");
         
         //Get input
@@ -147,6 +151,9 @@ public class ClientEncryptedSearch {
                 break;
             case "-am":
                 System.out.println("Modify Abstract Item");
+                break;
+            case "-d":
+                System.out.println("Drawing Sampling Quality");
                 break;
             default:
                 System.out.println("I'm sorry, I do not recognize that input");
@@ -273,5 +280,11 @@ public class ClientEncryptedSearch {
     public  void  modifyAbstract(){
         RankingEngine rankAbstract = new RankingEngine();
         rankAbstract.addReplaceAbstractItem();
+    }
+
+
+    public void drawSamplingQuality(){
+        WordRepresentation wordRepresentationObj = new WordRepresentation();
+        wordRepresentationObj.drawingTest();
     }
 }

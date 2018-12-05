@@ -37,6 +37,9 @@ public class Constants {
     public  static  String markovAbstractLocation = ".." + File.separator + "EdgeStore" + File.separator + "Abstract";
     public  static  String noMatchRecordLocation = ".." + File.separator+"EdgeStore" + File.separator + "searchHistory";
     public static  String noMatchRecordFileName = "noMatchRecord.txt";
+    public static String pointRecordFileLocation = ".."+ File.separator +"EdgeStore"+ File.separator+ "TermPoint";
+    public  static String searchPointFileName= "searchPointRecord.txt";
+    public  static  String abractPointFileName= "abstractPointRecord.txt";
     //Path for config props
     // IDE Version
     public static String configLocation = "src" + File.separator + "clientencryptedsearch" + File.separator + "utilities" + File.separator;
