@@ -215,7 +215,7 @@ public class RankingEngine {
  */
 
 
-    /*     List<String> abstractLines = null;
+         List<String> abstractLines = null;
          try {
              abstractLines = Files.readAllLines(path, StandardCharsets.UTF_8);
              ArrayList <String> removeNounThatNotPresentInWordNet = new ArrayList<String>();
@@ -246,7 +246,7 @@ public class RankingEngine {
              e.printStackTrace();
              System.out.println("Can't read or write abstract files noun pharase removal stage");
          }
-*/
+
 
      }
 

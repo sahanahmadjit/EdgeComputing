@@ -186,6 +186,20 @@ public class WordRepresentation extends JPanel {
                         }
 
                     }
+
+
+                    if(maximumDistance <0 || maximumDistance>1){
+                        int random = (int) getRandomNumberInRange(0,10);
+                        int i=0;
+                        for(String term: abstractPointLocation.keySet()){
+                            if(i==random){
+                                closestAbstract = term;
+                                break;
+                            }
+                            i++;
+                        }
+
+                    }
                       ArrayList<Double>   searchWordPointList = new ArrayList<Double>();
                        searchWordPointList = abstractPointLocation.get(closestAbstract);
 
@@ -351,7 +365,7 @@ public class WordRepresentation extends JPanel {
             double x = pointList.get(0); //x cordinate
             double y = pointList.get(1); //y cordinate
 
-            Shape shapePoint = new Line2D.Double(x, y, x+1 , y);
+            Shape shapePoint = new Line2D.Double(x, y, x , y);
             graphics2D.draw(shapePoint);
         //    Shape shapePoint2 = new Line2D.Double(x + 2, y + 2, x + 2, y - 2);
           //  graphics2D.draw(shapePoint2);
@@ -367,7 +381,7 @@ public class WordRepresentation extends JPanel {
         WordRepresentation wordRepresentObj = new WordRepresentation();
         JFrame jf = new JFrame();
         jf.setTitle("Samplying Quality Testing");
-        jf.setSize(6000,6000);
+        jf.setSize(1000,1000);
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.add(wordRepresentObj);
