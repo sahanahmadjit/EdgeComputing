@@ -27,6 +27,7 @@ public class Constants {
     public static  String batchUploadLocation = ".." + File.separator + "cloud" + File.separator +
             "cloudserver" + File.separator + "batchUpload" ;
 
+
     public  static String searchHistoryFileLocation = ".."+ File.separator +"EdgeStore"+ File.separator+ "searchHistory";
     public  static String searchHistoryFileName = "searchRecord.txt";
     public static  String markovDataFileLocation = ".." + File.separator + "EdgeStore" + File.separator + "markov_Data";
@@ -40,6 +41,9 @@ public class Constants {
     public static String pointRecordFileLocation = ".."+ File.separator +"EdgeStore"+ File.separator+ "TermPoint";
     public  static String searchPointFileName= "searchPointRecord.txt";
     public  static  String abractPointFileName= "abstractPointRecord.txt";
+    public  static  String missPlacedSampleFileName = "missplacedRecord.txt";
+    public static  String clusterDataLocation = ".." + File.separator + "cloud" + File.separator +
+            "cloudserver" + File.separator + "utilities" + File.separator + "clusters" ;
     //Path for config props
     // IDE Version
     public static String configLocation = "src" + File.separator + "clientencryptedsearch" + File.separator + "utilities" + File.separator;
