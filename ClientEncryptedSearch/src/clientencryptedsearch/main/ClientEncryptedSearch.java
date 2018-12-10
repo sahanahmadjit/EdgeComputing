@@ -76,7 +76,9 @@ public class ClientEncryptedSearch {
             case "-d":
                 drawSamplingQuality();
                 break;
-
+            case "-ac":
+                parseAmazonCrowlData();
+                break;
 
 
 
@@ -101,6 +103,7 @@ public class ClientEncryptedSearch {
                 +"\tClusterSize Info Collection -c\n"
                 +"\tModify Abstract item -am\n"
                 +"\tDraw Sample Quality -d\n"
+                +"\t Parse Amazon Crawl Data -ac\n"
                 + "Choice: ");
         
         //Get input
@@ -154,6 +157,9 @@ public class ClientEncryptedSearch {
                 break;
             case "-d":
                 System.out.println("Drawing Sampling Quality");
+                break;
+            case "-ac":
+                System.out.println("Parsing Amazon Crawl Data");
                 break;
             default:
                 System.out.println("I'm sorry, I do not recognize that input");
@@ -286,5 +292,10 @@ public class ClientEncryptedSearch {
     public void drawSamplingQuality(){
         WordRepresentation wordRepresentationObj = new WordRepresentation();
         wordRepresentationObj.drawingTest();
+    }
+
+    public  void  parseAmazonCrowlData(){
+        ParseAmazonCrawlData parseObj = new ParseAmazonCrawlData();
+        parseObj.parseClusterFile();
     }
 }

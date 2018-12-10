@@ -17,7 +17,11 @@ public class Constants {
     public static String[] mauiKeyOptions = {
 		"-l", "data/tmp/", "-m", "keyphrextr", "-t", "PorterStemmer", "-v", "none"
     };
-    
+
+
+    public static  String clusterFileLocatioon = ".." + File.separator + "cloud" + File.separator +
+            "cloudserver" + File.separator + "utilities" + File.separator + "clusters";
+
     //Folder path for upload
     public static String uploadLocation = ".." + File.separator + "cloud" + File.separator + 
             "cloudserver" + File.separator + "watch";
